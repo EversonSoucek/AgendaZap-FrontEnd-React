@@ -14,3 +14,15 @@
     color: #BCBCBC;
     font-style: italic;
 }
+
+@media (max-width: 768px) {
+    .input {
+        width: 167px;
+    }
+}
+
+@media (max-width: 390px) {
+    .input {
+        width: 90px;
+    }
+}

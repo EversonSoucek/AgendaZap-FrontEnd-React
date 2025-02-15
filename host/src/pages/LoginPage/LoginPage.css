@@ -1,10 +1,31 @@
-.login {
+.fundo {
+    background-color: #070431;
+    background-image: linear-gradient(45deg, #070431 0%, #0d315e 100%);
     height: 100vh;
+}
+
+.login {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #070431;
-    background-image: linear-gradient(45deg, #070431 0%, #0d315e 100%);
+    flex-direction: column;
+}
+
+.cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    color: #ffff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    width: 100%;
+    font-size: 20px;
+    padding-top: 10px;
+    margin-bottom: 100px;
+}
+
+.cabecalho__user {
+    margin-right: 10px;
 }
 
 .login__container {
@@ -17,7 +38,7 @@
     width: 1100px;
 }
 
-.teste {
+.login__container__livro {
     display: flex;
     width: 100%;
     justify-content: space-between;
@@ -39,18 +60,18 @@
     margin-bottom: 2.5em;
 }
 
-.login__form__logo--imagem {
+.login__form__logo__imagem {
     margin-bottom: 0.5em;
 }
 
-.login__form--titulo {
+.login__form__titulo {
     color: #ffff;
     font-weight: 600;
     font-size: 36px;
     font-family: "Poppins", serif;
 }
 
-.login__form__esqueciSenha {
+.login__form__esqueci-senha {
     font-family: "Poppins", serif;
     font-weight: 300;
     font-style: italic;
@@ -70,4 +91,73 @@
 .login__form__logar {
     display: flex;
     flex-direction: column;
+}
+
+
+@media (max-width: 1024px) {
+    .login__form__logar {
+        width: 90%;
+    }
+
+    .login__container__imagem {
+        width: 30%;
+    }
+}
+
+@media (max-width: 768px) {
+    .login__container__calendario-imagem {
+        width: 150%;
+    }
+}
+
+@media (max-width: 640px) {
+    .login__container__calendario-imagem {
+        width: 150%;
+        margin-right: 60px;
+    }
+}
+
+@media (max-width: 475px) {
+    .cabecalho {
+        font-size: 15px;
+        padding: 0;
+        margin-right: 20px;
+    }
+    .login__container {
+        width: 400px;
+    }
+    .login__form__titulo {
+        font-size: 30px;
+    }
+    .login__form__logo__imagem {
+        width: 150px;
+    }
+    .login__container__calendario-imagem {
+        height: 200px;
+        width: 200px;
+    }
+}
+
+@media (max-width: 390px) {
+    .login__container {
+        width: 350px;
+    }
+    .cabecalho {
+        padding-top: 25px;
+    }
+    .cabecalho__texto {
+        margin-right: 20px;
+    }
+    .login__form__titulo {
+        font-size: 25px;
+    }
+    .login__form__logo__imagem {
+        width: 125px;
+    }
+    .login__container__calendario-imagem {
+        height: 180px;
+        width: 180px;
+        margin-right: 100px;
+    }
+
 }
