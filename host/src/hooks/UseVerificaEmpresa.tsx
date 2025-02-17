@@ -1,21 +1,22 @@
-import { useEffect, useState } from "react"
-
-type TUseVerificaEmpresa = {
-    idEmpresa: string
-}
-
-// hooks/UseVerificaEmpresa.tsx
+import { useEffect } from "react"
+import { useEmpresa } from "../context/EmpresaContext";
+import { useNavigate } from "react-router-dom";
 
 export const UseVerificaEmpresa = async (idEmpresa: string) => {
-    try {
-        const response = await fetch(`http://localhost:5235/zapagenda/empresa/${idEmpresa}`);
-        if (response.status === 404) {
-            return false; // Se não encontrar a empresa, retorna false
+    const { empresaExiste, verificaEmpresa } = useEmpresa();
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (idEmpresa) {
+            verificaEmpresa(idEmpresa);
         }
-        return true; // Se encontrar, retorna true
-    } catch (error) {
-        console.error("Erro ao verificar empresa", error);
-        return false;
-    }
+    }, [idEmpresa]);
+
+    useEffect(() => {
+        if (empresaExiste === false) {
+            navigate("/notfound")
+        }
+    }, [empresaExiste, navigate])
+
 };
 

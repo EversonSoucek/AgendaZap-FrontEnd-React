@@ -1,43 +1,20 @@
 import "./LoginPage.css";
 import calendario from "../../assets/Timeline-rafiki (2) 1.png";
 import { Input } from "../../components/Input/Input";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { BotaoLink } from "../../components/BotaoLink/BotaoLink";
 import { FaUserCircle } from "react-icons/fa";
 import { Logo } from "../../components/Logo/Logo";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { UseVerificaEmpresa } from "../../hooks/UseVerificaEmpresa";
 
 export default function LoginPage() {
     const { idEmpresa } = useParams<{ idEmpresa: string }>();
-    const navigate = useNavigate();
-    const [empresaExiste, setEmpresaExiste] = useState<boolean | null>(null);
 
-    useEffect(() => {
-        if (idEmpresa) {
-            const verificaEmpresa = async () => {
-                const existe = await UseVerificaEmpresa(idEmpresa); // Esperar pela verificação
-                setEmpresaExiste(existe);
-
-                if (!existe) {
-                    navigate("/notfound");
-                }
-            };
-
-            verificaEmpresa(); // Chama a função de verificação
-        }
-    }, [idEmpresa, navigate]);
-
-    if (empresaExiste === null) {
-        return null; // Enquanto estiver verificando, não renderiza nada
+    if (idEmpresa) {
+        UseVerificaEmpresa(idEmpresa);
     }
-
-    if (!empresaExiste) {
-        return <NotFoundPage />; // Se a empresa não existir, renderiza a página de erro
-    }
-
+    
     return (
         <div className="fundo">
             <header className="cabecalho container">
