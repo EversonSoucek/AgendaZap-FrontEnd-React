@@ -176,3 +176,14 @@ table {
     width: 100%;
   }
 }
+
+:root {
+  --14px:0.875rem;
+  --15px:0.9375rem
+  --16px:1rem;
+  --20px:1.25rem
+  --24px:1.5rem;
+  --30px: 1.875rem;
+  --32px:2rem;
+  --36px:2.25rem;
+}

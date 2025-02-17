@@ -10,7 +10,7 @@
 
 .input::placeholder {
     font-family: "Poppins";
-    font-size: 14px;
+    font-size: var(--14px);
     color: #BCBCBC;
     font-style: italic;
 }
