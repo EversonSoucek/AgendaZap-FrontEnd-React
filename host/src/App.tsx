@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
 import { EsqueciSenhaPage } from "./pages/EsqueciSenhaPage/EsqueciSenhaPage";
 import { EmpresaProvider } from "./context/EmpresaContext";
+import { HomePage } from "./pages/HomePage/HomePage";
 
 function App() {
 	return (
@@ -13,6 +14,7 @@ function App() {
 					<Route path="/:idEmpresa/esqueciSenha" element={<EsqueciSenhaPage />} />
 					<Route path="/notfound" element={<NotFoundPage />} />
 					<Route path="*" element={<NotFoundPage />} />
+					<Route path="/home" element={<HomePage />} />
 				</Routes>
 			</EmpresaProvider>
 		</Router >
