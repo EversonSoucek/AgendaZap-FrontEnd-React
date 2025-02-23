@@ -4,13 +4,6 @@
     height: 100vh;
 }
 
-.login {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
 .cabecalho {
     display: flex;
     align-items: center;
@@ -19,7 +12,7 @@
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     width: 100%;
-    font-size:var(--20px);
+    font-size: var(--20px);
     padding-top: 10px;
     margin-bottom: 100px;
 }
@@ -28,76 +21,9 @@
     margin-right: 10px;
 }
 
-.login__container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 40px;
-    background: linear-gradient(to right, #202D55 50%, #18244A 50%);
-    height: 70vh;
-    width: 1100px;
-    box-shadow: 0px 2px 1px 0px black;
-}
-
-.login__container__livro {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-}
-
-
-.login__form {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    width: 50%;
-}
-
-.login__form__esqueci-senha {
-    font-family: "Poppins", serif;
-    font-weight: 300;
-    font-style: italic;
-    color: #dddd;
-    text-decoration: none;
-    width: 65%;
-    font-size: var(--14px);
-}
-
-.login__container__imagem {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 5em;
-}
-
-.login__form__logar {
-    display: flex;
-    flex-direction: column;
-}
-
-
-@media (max-width: 1024px) {
-    .login__form__logar {
-        width: 90%;
-    }
-
-    .login__container__imagem {
-        width: 30%;
-    }
-}
-
-@media (max-width: 768px) {
-    .login__container__calendario-imagem {
-        width: 150%;
-    }
-}
-
-@media (max-width: 640px) {
-    .login__container__calendario-imagem {
-        width: 150%;
-        margin-right: 60px;
-    }
+.mensagem-erro {
+    color: red;
+    font-family: "Poppins", sans-serif;
 }
 
 @media (max-width: 475px) {
@@ -106,41 +32,22 @@
         padding: 0;
         margin-right: 20px;
     }
-    .login__container {
-        width: 400px;
-    }
+
     .login__form__titulo {
         font-size: var(--30px);
-    }
-    .login__form__logo__imagem {
-        width: 150px;
-    }
-    .login__container__calendario-imagem {
-        height: 200px;
-        width: 200px;
     }
 }
 
 @media (max-width: 390px) {
-    .login__container {
-        width: 350px;
-    }
     .cabecalho {
         padding-top: 25px;
     }
+
     .cabecalho__texto {
         margin-right: 20px;
     }
+
     .login__form__titulo {
         font-size: var(--24px);
     }
-    .login__form__logo__imagem {
-        width: 125px;
-    }
-    .login__container__calendario-imagem {
-        height: 180px;
-        width: 180px;
-        margin-right: 100px;
-    }
-
 }

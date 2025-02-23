@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import api from "../services/api";
 
 type TEmpresaContext = {
     empresaExiste: boolean | null;
@@ -13,7 +14,7 @@ export const EmpresaProvider = ({ children }: { children: React.ReactNode }) => 
     const [empresaExiste, setEmpresaExiste] = useState<boolean | null>(null)
 
     const verificaEmpresa = async (idEmpresa: string) => {
-        const reposta = await fetch(`http://localhost:5235/zapagenda/empresa/${idEmpresa}`)
+        const reposta = await api(`empresa/${idEmpresa}`,"GET")
         if (reposta.status == 404) {
             setEmpresaExiste(false)
         }

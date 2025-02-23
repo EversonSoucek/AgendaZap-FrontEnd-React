@@ -6,6 +6,7 @@
     margin-bottom: 15px ;
     border:1px solid #7B8090 ;
     background-color: #424D6F ;
+    color: #fff;
 }
 
 .input::placeholder {

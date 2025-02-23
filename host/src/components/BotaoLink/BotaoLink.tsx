@@ -8,6 +8,6 @@ type TBotaoLink = {
 
 export const BotaoLink: React.FC<TBotaoLink> = ({ children, url }) => {
     return (
-        <Link className='BotaoLink' to={url}>{children}</Link>
+        <Link type='submit' className='BotaoLink' to={url}>{children}</Link>
     )
 }

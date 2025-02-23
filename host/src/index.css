@@ -177,6 +177,10 @@ table {
   }
 }
 
+.invisivel {
+  display: none;
+}
+
 :root {
   --14px:0.875rem;
   --15px:0.9375rem

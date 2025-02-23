@@ -1,4 +1,3 @@
-import React from 'react'
 import roboZapeando from "../../assets/ZapeandoBranco.png"
 import "./Logo.css"
 
