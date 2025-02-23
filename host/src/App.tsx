@@ -1,7 +1,7 @@
 import LoginPage from "./pages/LoginPage/LoginPage"
+import EsqueciSenhaPage  from "./pages/EsqueciSenhaPage/EsqueciSenhaPage";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
-import { EsqueciSenhaPage } from "./pages/EsqueciSenhaPage/EsqueciSenhaPage";
 import { EmpresaProvider } from "./context/EmpresaContext";
 import { HomePage } from "./pages/HomePage/HomePage";
 

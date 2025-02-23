@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import "./BotaoLink.css"
+import { ReactNode } from 'react';
 
 type TBotaoLink = {
-    children: string;
+    children: string | ReactNode;
     url: string
 }
 

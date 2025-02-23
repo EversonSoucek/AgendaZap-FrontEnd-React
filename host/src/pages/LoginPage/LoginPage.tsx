@@ -23,6 +23,7 @@ export default function LoginPage() {
     if (idEmpresa) {
         UseVerificaEmpresa(idEmpresa);
     }
+    
     return (
         <div className="fundo">
             <header className="cabecalho container">

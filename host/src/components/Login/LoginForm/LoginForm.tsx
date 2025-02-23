@@ -54,7 +54,7 @@ export const LoginFormUsuario = ({ idEmpresa }: { idEmpresa: string | undefined 
                 <span className={validaUsuarioAtivo ? "invisivel" : "mensagem-erro"}>Usuário foi desativado</span>
                 <InputLogin placeholder="Login" tipo="text" onChange={e => aoMudarInput(e, 'nomeUsuario')} />
                 <InputLogin placeholder="Senha" tipo="password" onChange={e => aoMudarInput(e, 'senha')} />
-                <Link className="login__form__esqueci-senha" to={"/:idEmpresa/esqueciSenha"}>
+                <Link className="login__form__esqueci-senha" to={`/${idEmpresa}/esqueciSenha`}>
                     Esqueci minha senha
                 </Link>
                 <button className='login__form__botao' type="submit">Entrar</button>
