@@ -25,7 +25,7 @@ export const LoginFormUsuario = ({ idEmpresa }: { idEmpresa: string | undefined 
             console.log(`Resposta: ${response.status}`);
 
             if (response.status === 200) {
-                navigate("/home");
+                navigate(`/${idEmpresa}/home`);
             }
             if (response.status === 401) {
                 setValidaCredencial(true)
