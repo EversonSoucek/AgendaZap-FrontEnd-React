@@ -3,9 +3,9 @@
     height: 34px;
     width: 334px;
     padding-left: 20px;
-    margin-bottom: 15px ;
-    border:1px solid #7B8090 ;
-    background-color: #424D6F ;
+    margin-bottom: 15px;
+    border: 1px solid #7B8090;
+    background-color: #424D6F;
     color: #fff;
 }
 
@@ -25,5 +25,13 @@
 @media (max-width: 390px) {
     .input {
         width: 90px;
+    }
+}
+
+@media (max-width:475px) {
+    .input {
+        width: 100%;
+        color: #818181;
+        background-color: #fff;
     }
 }

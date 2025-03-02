@@ -24,6 +24,9 @@
 .mensagem-erro {
     color: red;
     font-family: "Poppins", sans-serif;
+    font-style: italic;
+    font-size: var(--14px);
+    margin-bottom: 5px;
 }
 
 @media (max-width: 475px) {
@@ -31,10 +34,17 @@
         font-size: var(--15px);
         padding: 0;
         margin-right: 20px;
+        width: 100%;
     }
 
     .login__form__titulo {
         font-size: var(--30px);
+    }
+    .fundo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
     }
 }
 

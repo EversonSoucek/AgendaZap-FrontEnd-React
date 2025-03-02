@@ -29,6 +29,11 @@
     margin-left: 5em;
 }
 
+.login__celular {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 @media (max-width: 1024px) {
     .login__container__imagem {

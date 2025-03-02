@@ -38,3 +38,12 @@
         width: 90%;
     }
 }
+
+@media (max-width:475px) {
+    .login__form__botao {
+        width: 40%;
+    }
+    .login__form__esqueci-senha {
+        width: 100%;
+    }
+}

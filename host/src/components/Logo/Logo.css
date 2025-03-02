@@ -18,15 +18,15 @@
 
 @media (max-width:475px) {
     .logo__titulo {
-        font-size: var(--30px);
+        font-size: var(--36px);
     }
 }
 
 @media (max-width:390px) {
     .logo__titulo {
-        font-size: var(--26px);
+        font-size: var(--36px);
     }
     .logo__imagem {
-        width: 85%;
+        width: 75%;
     }
 }

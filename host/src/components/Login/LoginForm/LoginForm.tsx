@@ -48,11 +48,11 @@ export const LoginFormUsuario = ({ idEmpresa }: { idEmpresa: string | undefined 
             <Logo />
             <div className="login__form__logar">
                 {/*todo: Pedir pro gustavo prototipar os erros de login*/}
-                <span className={validaCredencial ? "mensagem-erro" : "invisivel"}>Nome de usuário ou senha incorreta</span>
-                <span className={validaUsuarioAtivo ? "invisivel" : "mensagem-erro"}>Usuário foi desativado</span>
                 <InputLogin placeholder="Login" tipo="text" onChange={e => aoMudarInput(e, 'nomeUsuario')} />
                 <InputLogin placeholder="Senha" tipo="password" onChange={e => aoMudarInput(e, 'senha')} />
-                <Link className="login__form__esqueci-senha" to={`/${idEmpresa}/esqueciSenha`}>
+                <span className={validaCredencial ? "mensagem-erro" : "invisivel"}>Nome de usuário ou senha incorreta</span>
+                <span className={validaUsuarioAtivo ? "invisivel" : "mensagem-erro"}>Usuário foi desativado</span>
+                <Link className="login__form__esqueci-senha" to={`/${idEmpresa}/esqueciSenhaConfirma`}>
                     Esqueci minha senha
                 </Link>
                 <button className='login__form__botao' type="submit">Entrar</button>

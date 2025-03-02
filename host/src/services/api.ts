@@ -1,5 +1,3 @@
-import { TUsuarioLogin } from "../types/TUsuarioLogin"
-
 type TApi<T = unknown> = (
     endpoint: string,
     metodo: string,
