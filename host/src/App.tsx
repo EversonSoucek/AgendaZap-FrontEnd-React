@@ -13,11 +13,12 @@ function App() {
 					<Route path="/:idEmpresa" element={<LoginPage />} />
 					<Route path="/:idEmpresa/esqueciSenha" element={<EsqueciSenhaPage />} />
 					<Route path="/:idEmpresa/home" element={<HomePage />} />
+					<Route path="*" element={<NotFoundPage />} />
 				</Routes>
 			</EmpresaProvider>
 			<Routes>
 				<Route path="/notfound" element={<NotFoundPage />} />
-				<Route path="*" element={<NotFoundPage />} />
+				
 			</Routes>
 		</Router >
 	)

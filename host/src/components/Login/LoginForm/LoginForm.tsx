@@ -17,9 +17,7 @@ export const LoginFormUsuario = ({ idEmpresa }: { idEmpresa: string | undefined 
 
     const logar = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const usuarioDado = usuario;
-        console.log(usuario.nomeUsuario);
-        console.log(usuario.senha);
+        const usuarioDado = usuario
         try {
             const response = await api(`${idEmpresa}/autentificacao`, "POST", usuarioDado)
             console.log(`Resposta: ${response.status}`);

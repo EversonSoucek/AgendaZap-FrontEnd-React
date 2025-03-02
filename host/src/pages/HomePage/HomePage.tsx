@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { UseVerificaEmpresa } from "../../hooks/UseVerificaEmpresa";
+import api from "../../services/api";
 
 export const HomePage = () => {
-  const [userData, setUserData] = useState(null);
   const { idEmpresa } = useParams<{ idEmpresa: string }>();
 
   if (idEmpresa) {
@@ -13,37 +13,22 @@ export const HomePage = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`http://localhost:5235/${idEmpresa}/usuario`, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        let response = await api(`${idEmpresa}/usuario`, "GET");
+        let data = await response.json();
 
-        if (!response.ok) {
-          throw new Error("Erro ao buscar usuário");
-        }
-
-        const data = await response.json();
-        setUserData(data);
-        console.log("Usuário recebido:", data);
+        console.log("Usuários recebidos:", data);
       } catch (error) {
-        console.error("Erro:", error);
+        console.error("Erro ao buscar usuários:", error);
       }
     };
 
     fetchUserData();
-  }, []);
+  }, [idEmpresa]);
 
   return (
     <div>
       <h1>HomePage</h1>
-      {userData ? (
-        <pre>{JSON.stringify(userData, null, 2)}</pre>
-      ) : (
-        <p>Carregando usuário...</p>
-      )}
+      <p>Verifique o console para os usuários.</p>
     </div>
   );
 };
