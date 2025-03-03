@@ -1,7 +1,6 @@
 import calendario from "../../assets/Timeline-rafiki (2) 1.png";
 import { useParams } from "react-router-dom";
 import { UseVerificaEmpresa } from "../../hooks/UseVerificaEmpresa";
-import { FaUserCircle } from "react-icons/fa";
 import { LoginLivro } from "../../components/Login/LoginLivro/LoginLivro";
 import { ErrorBoundary } from "react-error-boundary";
 import { TErrorFallBack } from "../../types/TErrorFallBack";

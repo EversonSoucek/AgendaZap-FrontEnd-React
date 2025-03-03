@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { EmpresaProvider } from "./context/EmpresaContext";
 import { HomePage } from "./pages/HomePage/HomePage";
 import { EsqueciSenhaConfirmacaoPage } from "./pages/EsqueciSenhaConfirmacaoPage/EsqueciSenhaConfirmacaoPage";
+import { CalendarioProvider } from "./context/CalendarioContext";
 
 function App() {
 	return (
@@ -14,7 +15,7 @@ function App() {
 					<Route path="/:idEmpresa" element={<LoginPage />} />
 					<Route path="/:idEmpresa/esqueciSenha" element={<EsqueciSenhaPage />} />
 					<Route path="/:idEmpresa/esqueciSenhaConfirma" element={<EsqueciSenhaConfirmacaoPage />} />
-					<Route path="/:idEmpresa/home" element={<HomePage />} />
+					<Route path="/:idEmpresa/home" element={<CalendarioProvider><HomePage /></CalendarioProvider>} />
 					<Route path="*" element={<NotFoundPage />} />
 				</Routes>
 			</EmpresaProvider>
