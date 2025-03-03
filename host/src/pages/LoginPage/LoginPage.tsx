@@ -28,12 +28,6 @@ export default function LoginPage() {
     if (isMobile) {
         return (
             <div className="fundo">
-                <header className="cabecalho container">
-                    <div className="cabecalho__user">
-                        <FaUserCircle size={37} />
-                    </div>
-                    <div className="cabecalho__texto">Login</div>
-                </header>
                 <LoginLivro imagem={calendario} legenda="Duas pessoas cartunescas ajustando um calendário" >
                     <ErrorBoundary FallbackComponent={ErrorFallback}>
                         <LoginFormUsuario idEmpresa={idEmpresa} />
