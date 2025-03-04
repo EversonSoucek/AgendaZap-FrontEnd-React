@@ -24,5 +24,6 @@
 }
 
 .home-page__agendamentos{
+    margin-top: 50px;
     grid-area: "agendamento";
 }

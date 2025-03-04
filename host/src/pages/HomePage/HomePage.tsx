@@ -4,6 +4,7 @@ import { Cabecalho } from "../../components/Cabecalho/Cabecalho";
 import { SideBar } from "../../components/SideBar/SideBar";
 import "./HomePage.css"
 import { Calendario } from "../../components/Calendario/Calendario/Calendario";
+import { ProximosAgendamentos } from "../../components/ProximosAgendamentos/ProximosAgendamentos";
 
 export const HomePage = () => {
 	const { idEmpresa } = useParams<{ idEmpresa: string }>();
@@ -24,7 +25,7 @@ export const HomePage = () => {
 				<Calendario/>
 			</div>
 			<div className="home-page__agendamentos">
-				Próximos agendamentos
+				<ProximosAgendamentos/>
 			</div>
 		</div>
 	);

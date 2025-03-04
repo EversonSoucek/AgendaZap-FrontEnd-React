@@ -1,3 +1,13 @@
 .calendario-celula {
-    border: 1px solid #fefefe;
+    border: 1px solid #dadada;
+    background-color: #FFFFFF;
+    height: 100px;
+    width: 99%;
+}
+
+.calendario-celula__dia {
+    font-family: "Poppins" , sans-serif;
+    font-size: var(--14px);
+    color: black;
+    padding: 10px
 }

@@ -29,7 +29,6 @@ export const CalendarioMes = () => {
     dias.push(addDays(dias[dias.length - 1], 1))
   }
 
-
   return (
     <div className="calendario-mes">
       <div className="calendario-mes-dias-semana">
@@ -41,7 +40,7 @@ export const CalendarioMes = () => {
       </div>
       <div className="calendario-mes__corpo">
         {dias.map((dia, index) => (
-          <CalendarioCelula key={index} dia={index} />
+          <CalendarioCelula key={index} dia={dia} />
         ))}
       </div>
     </div>

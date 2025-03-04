@@ -5,7 +5,7 @@ export const NavegacaoCalendario = () => {
         <div className="container navegacao-calendario">
             <div className="navegacao-calendario__itens">
                 <select className="navegacao-calendario__funcionario">
-                    <option value="1">funcionario 1</option>
+                    <option value="1">Funcionario 1</option>
                     <option value="2">funcionario 2</option>
                     <option value="3">funcionario 3</option>
                 </select>
