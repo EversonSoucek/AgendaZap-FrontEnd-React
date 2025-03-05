@@ -1,6 +1,11 @@
+import { useCalendario } from "../../context/CalendarioContext"
 import "./NavegacaoCalendario.css"
 
 export const NavegacaoCalendario = () => {
+    const { dataSelecionada, modoVisualizacao, setModoVisualizacao } = useCalendario()
+
+    const DataPorExtenso: string = dataSelecionada.toLocaleString("pt-br", { month: "long", year: "numeric" })
+
     return (
         <div className="container navegacao-calendario">
             <div className="navegacao-calendario__itens">
@@ -9,14 +14,14 @@ export const NavegacaoCalendario = () => {
                     <option value="2">funcionario 2</option>
                     <option value="3">funcionario 3</option>
                 </select>
-                <h2 className="navegacao-calendario__data">03 de Março</h2>
+                <h2 className="navegacao-calendario__data">{`${DataPorExtenso.charAt(0).toUpperCase() + DataPorExtenso.slice(1)}`}</h2>
 
                 <div className="navegacao-calendario__botoes">
-                    <p>&lt;</p>
-                    <button className="navegacao-calendario__botao">Dia</button>
-                    <button className="navegacao-calendario__botao">Semana</button>
-                    <button className="navegacao-calendario__botao selecionado">Mês</button>
-                    <p>&gt;</p>
+                    <button className="navegacao-calendario__altera">&lt;</button>
+                    <button onClick={() => setModoVisualizacao("dia")} className={`navegacao-calendario__botao ${modoVisualizacao == "dia" ? "selecionado" : ""}`}>Dia</button>
+                    <button onClick={() => setModoVisualizacao("semana")} className={`navegacao-calendario__botao ${modoVisualizacao == "semana" ? "selecionado" : ""}`}>Semana</button>
+                    <button onClick={() => setModoVisualizacao("mes")} className={`navegacao-calendario__botao ${modoVisualizacao == "mes" ? "selecionado" : ""}`}>Mês</button>
+                    <button className="navegacao-calendario__altera">&gt;</button>
                 </div>
             </div>
         </div>

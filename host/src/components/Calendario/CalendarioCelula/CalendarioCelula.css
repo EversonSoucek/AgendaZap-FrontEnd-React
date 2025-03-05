@@ -3,6 +3,11 @@
     background-color: #FFFFFF;
     height: 100px;
     width: 99%;
+    cursor: pointer;
+}
+
+.calendario-celula:hover {
+    border: 1px solid #0F1938;
 }
 
 .calendario-celula__dia {
@@ -10,4 +15,8 @@
     font-size: var(--14px);
     color: black;
     padding: 10px
+}
+
+.hoje {
+    border: 1.5px solid #0F1938;
 }

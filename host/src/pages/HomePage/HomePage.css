@@ -4,7 +4,7 @@
     grid-template-areas:
         "header header header"
         "side-bar calendario agendamento";
-    grid-template-columns: 0.8fr 3fr 1fr;
+    grid-template-columns: 0.8fr 4.1fr 1fr;
     grid-template-rows: 1fr 1fr;
     overflow: hidden;
 }
