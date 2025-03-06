@@ -20,3 +20,14 @@
 .hoje {
     border: 1.5px solid #0F1938;
 }
+
+.calendario-celula--fora-mes {
+    pointer-events: none;
+    cursor: not-allowed;
+    background-color: #F4F4F4;
+    color: #909090;
+}
+
+.calendario-celula__dia--fora-mes {
+    color: #909090;
+}
