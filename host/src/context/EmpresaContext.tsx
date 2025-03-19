@@ -14,12 +14,17 @@ export const EmpresaProvider = ({ children }: { children: React.ReactNode }) => 
     const [empresaExiste, setEmpresaExiste] = useState<boolean | null>(null)
 
     const verificaEmpresa = async (idEmpresa: string) => {
-        const reposta = await api(`empresa/${idEmpresa}`,"GET")
-        if (reposta.status == 404) {
-            setEmpresaExiste(false)
+        try {
+            const resposta = await api(`empresa/${idEmpresa}`, "GET")
+            if (resposta.status == 404) {
+                setEmpresaExiste(false)
+            }
+            else {
+                setEmpresaExiste(true)
+            }
         }
-        else {
-            setEmpresaExiste(true)
+        catch(err) {
+            throw new Error()
         }
     }
 

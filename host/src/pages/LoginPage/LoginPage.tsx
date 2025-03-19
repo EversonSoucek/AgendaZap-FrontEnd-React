@@ -16,7 +16,8 @@ const ErrorFallback: React.FC<TErrorFallBack> = ({ error, resetErrorBoundary }) 
         </div>
     )
 }
-
+// todo: ver uma maneira de tratar erro caso não consiga chamar da api ao verificar empresa
+// se colocar um error boundary no loginPage é a melhor forma ou outro tratamento
 export default function LoginPage() {
     const { idEmpresa } = useParams<{ idEmpresa: string }>();
     const isMobile = useMediaQuery({ query: '(min-width: 475px)' });
