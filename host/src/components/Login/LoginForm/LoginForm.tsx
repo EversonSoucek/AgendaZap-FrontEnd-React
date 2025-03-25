@@ -20,8 +20,6 @@ export const LoginFormUsuario = ({ idEmpresa }: { idEmpresa: string | undefined 
         const usuarioDado = usuario
         try {
             const response = await api(`${idEmpresa}/autentificacao`, "POST", usuarioDado)
-            console.log(`Resposta: ${response.status}`);
-
             if (response.status === 200) {
                 navigate(`/${idEmpresa}/home`);
             }
