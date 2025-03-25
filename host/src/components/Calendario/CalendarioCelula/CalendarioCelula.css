@@ -31,3 +31,21 @@
 .calendario-celula__dia--fora-mes {
     color: #909090;
 }
+
+@media (max-width:1630px) {
+    .calendario-celula {
+        width: 98%;
+    }
+    .calendario-celula--fora-mes {
+        width: 98%;
+    }
+}
+
+@media (max-width:850px) {
+    .calendario-celula {
+        width: 97%;
+    }
+    .calendario-celula--fora-mes {
+        width: 97%;
+    }
+}

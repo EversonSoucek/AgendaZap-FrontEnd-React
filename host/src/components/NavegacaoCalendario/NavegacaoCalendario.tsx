@@ -17,7 +17,7 @@ export const NavegacaoCalendario = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const resposta = await api(`filtro?IdEmpresa=${idEmpresa}`, "GET");
+            const resposta = await api(`${idEmpresa}/usuario/filtro`, "GET");
             if (!resposta.ok) {
                 throw new Error
             }

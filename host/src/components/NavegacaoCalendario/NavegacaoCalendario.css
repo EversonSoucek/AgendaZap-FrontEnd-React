@@ -60,3 +60,19 @@
     background-color: #161D30;
     color: #ffff;
 }
+
+@media (max-width:790px) {
+    .navegacao-calendario__data {
+        font-size: var(--14px);
+    }
+
+    .navegacao-calendario__funcionario {
+        font-size: var(--14px);
+    }
+
+    .navegacao-calendario__botao {
+        font-size: var(--14px);
+    }
+
+}
+

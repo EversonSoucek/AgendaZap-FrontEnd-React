@@ -2,5 +2,12 @@
     background-color: #F1F1F1;
     border-radius: 25px ;
     padding-bottom: 20px;
-    padding-right: 20px;
+    padding-right: 50px;
+}
+
+
+@media (max-width: 1656px) {
+    .calendario {
+        width: 90%;
+    }
 }

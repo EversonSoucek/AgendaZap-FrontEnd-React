@@ -20,6 +20,7 @@
 .home-page__calendario{
     margin-top: 50px;
     grid-area: "calendario";
+    width: 100%;
 }
 
 .home-page__agendamentos{

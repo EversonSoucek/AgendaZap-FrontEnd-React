@@ -18,7 +18,7 @@ export const HomePage = () => {
 			<div className="home-page__side-bar">
 				<SideBar />
 			</div>
-			<div className="home-page__calendario">
+			<div className="container home-page__calendario">
 				<Calendario />
 			</div>
 		</div>
