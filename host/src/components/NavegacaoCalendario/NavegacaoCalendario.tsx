@@ -1,9 +1,32 @@
 import { addDays, addMonths } from "date-fns"
 import { useCalendario } from "../../context/CalendarioContext"
 import "./NavegacaoCalendario.css"
+import { useEffect, useState } from "react"
+import api from "../../services/api"
+import { useParams } from "react-router-dom"
+
+type TUsuariosFiltro = {
+    idusuario: number,
+    nomeUsuario: string
+}
 
 export const NavegacaoCalendario = () => {
     const { dataSelecionada, setDataSelecionada, modoVisualizacao, setModoVisualizacao } = useCalendario()
+    const [usuarios, setUsuarios] = useState<TUsuariosFiltro[]>([]);
+    const { idEmpresa } = useParams<{ idEmpresa: string }>();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const resposta = await api(`filtro?IdEmpresa=${idEmpresa}`, "GET");
+            if (!resposta.ok) {
+                throw new Error
+            }
+            setUsuarios(await resposta.json())
+            console.log(usuarios);
+            
+        };
+        fetchData();
+    }, [idEmpresa]);
 
     const DataPorExtenso: string = dataSelecionada.toLocaleString("pt-br", { month: "long", year: "numeric" })
 
@@ -23,9 +46,9 @@ export const NavegacaoCalendario = () => {
         <div className="container navegacao-calendario">
             <div className="navegacao-calendario__itens">
                 <select className="navegacao-calendario__funcionario">
-                    <option value="1">Funcionario 1</option>
-                    <option value="2">funcionario 2</option>
-                    <option value="3">funcionario 3</option>
+                    {usuarios.map(usuario => (
+                        <option key={usuario.idusuario} value={usuario.idusuario}>{usuario.nomeUsuario}</option>
+                    ))}
                 </select>
                 <h2 className="navegacao-calendario__data">{`${DataPorExtenso.charAt(0).toUpperCase() + DataPorExtenso.slice(1)}`}</h2>
 
