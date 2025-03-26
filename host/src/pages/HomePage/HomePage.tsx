@@ -10,17 +10,19 @@ export const HomePage = () => {
 	if (idEmpresa) {
 		UseVerificaEmpresa(idEmpresa);
 	}
-	return (
-		<div className="home-page">
-			<div className="home-page__cabecalho">
-				<Cabecalho />
+
+	// Menor que 770px tirar o sidebar
+		return (
+			<div className="home-page">
+				<div className="home-page__cabecalho">
+					<Cabecalho />
+				</div>
+				<div className="home-page__side-bar">
+					<SideBar />
+				</div>
+				<div className="container home-page__calendario">
+					<Calendario />
+				</div>
 			</div>
-			<div className="home-page__side-bar">
-				<SideBar />
-			</div>
-			<div className="container home-page__calendario">
-				<Calendario />
-			</div>
-		</div>
-	);
+		);
 };

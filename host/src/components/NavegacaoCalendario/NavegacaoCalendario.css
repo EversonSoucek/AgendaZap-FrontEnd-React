@@ -53,7 +53,6 @@
     display: flex;
     align-items: center;
     color: black;
-    margin-right: 25px;
 }
 
 .selecionado {
@@ -61,13 +60,39 @@
     color: #ffff;
 }
 
-@media (max-width:790px) {
+@media (max-width:920px) {
     .navegacao-calendario__data {
         font-size: var(--14px);
     }
-
     .navegacao-calendario__funcionario {
         font-size: var(--14px);
+    }
+
+    .navegacao-calendario__botao {
+        font-size: var(--14px);
+    }
+}
+
+@media (max-width:790px) {
+    .navegacao-calendario__data {
+        font-size: var(--12px);
+    }
+
+    .navegacao-calendario__funcionario {
+        font-size: var(--12px);
+    }
+
+    .navegacao-calendario__botao {
+        font-size: var(--12px);
+    }
+}
+
+@media (max-width:770px) {
+    .navegacao-calendario__data {
+        font-size: var(--18px);
+    }
+    .navegacao-calendario__funcionario {
+        font-size: var(--16px);
     }
 
     .navegacao-calendario__botao {
@@ -76,3 +101,42 @@
 
 }
 
+@media (max-width:640px) {
+    .navegacao-calendario__data {
+        font-size: var(--14px);
+    }
+    .navegacao-calendario__funcionario {
+        font-size: var(--14px);
+    }
+
+    .navegacao-calendario__botao {
+        font-size: var(--12px);
+    }
+}
+
+
+@media (max-width:550px) {
+    .navegacao-calendario__data {
+        font-size: var(--12px);
+    }
+    .navegacao-calendario__funcionario {
+        font-size: var(--12px);
+    }
+
+    .navegacao-calendario__botao {
+        font-size: var(--10px);
+    }
+}
+
+@media (max-width:525px) {
+    .navegacao-calendario__data {
+        font-size: var(--10px);
+    }
+    .navegacao-calendario__funcionario {
+        font-size: var(--10px);
+    }
+
+    .navegacao-calendario__botao {
+        font-size: var(--10px);
+    }    
+}

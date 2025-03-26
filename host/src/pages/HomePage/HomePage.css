@@ -27,3 +27,43 @@
     margin-top: 50px;
     grid-area: "agendamento";
 }
+
+@media (max-width:770px) {
+    .home-page {
+        grid-template-columns: 1fr;
+        grid-template-rows: 0.5fr 1fr;
+    }
+    .home-page__cabecalho {
+        display: flex;
+        width: 100%;
+    }
+    .home-page__calendario {
+        width: 100%;
+        margin-left: 20px;
+    }
+    .home-page__side-bar {
+        display: none;
+    }
+}
+
+@media (max-width:640px) {
+    .home-page__calendario {
+        max-width: 100%;
+        width: 100%;
+        margin-left: 0px;
+    }
+}
+
+@media (max-width:550px) {
+    .home-page__calendario{
+        width: 80%;
+        margin-left: 20px;
+    }
+}
+
+@media (max-width:475px) {
+    .home-page__calendario {
+        width: 70%;
+        margin-top: 40px;
+    }
+}

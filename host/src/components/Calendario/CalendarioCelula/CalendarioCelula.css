@@ -41,11 +41,24 @@
     }
 }
 
+
 @media (max-width:850px) {
     .calendario-celula {
         width: 97%;
     }
     .calendario-celula--fora-mes {
         width: 97%;
+    }
+}
+
+@media (max-width:640px) {
+    .calendario-celula {
+        height: 90px;
+    }
+}
+
+@media (max-width:550px) {
+    .calendario-celula {
+        height: 80px;
     }
 }

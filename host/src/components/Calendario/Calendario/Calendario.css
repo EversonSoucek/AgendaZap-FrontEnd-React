@@ -1,6 +1,6 @@
 .calendario {
     background-color: #F1F1F1;
-    border-radius: 25px ;
+    border-radius: 25px;
     padding-bottom: 20px;
     padding-right: 50px;
 }
@@ -9,5 +9,29 @@
 @media (max-width: 1656px) {
     .calendario {
         width: 90%;
+    }
+}
+
+@media (max-width:920px) {
+    .calendario {
+        width: 80%;
+    }
+}
+
+@media (max-width:770px) {
+    .calendario {
+        width: 100%;
+    }
+}
+
+@media (max-width:730px) {
+    .calendario {
+        width: 90%;
+    }
+}
+
+@media (max-width:640px) {
+    .calendario {
+        width: 100%;
     }
 }

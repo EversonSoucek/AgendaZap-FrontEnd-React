@@ -21,3 +21,25 @@
     height: 69px;
     width: 69px;
 }
+
+.cabecalho__burger {
+    display: none;
+    cursor: pointer;
+}
+
+@media (max-width:770px) {
+    .cabecalho {
+        height: 70%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .cabecalho__burger {
+        display: block;
+    }
+
+    .cabecalho__texto {
+        display: none;
+    }
+}
