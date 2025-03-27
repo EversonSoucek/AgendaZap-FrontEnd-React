@@ -27,19 +27,30 @@
     cursor: pointer;
 }
 
+.cabecalho__usuario {
+    display: none;
+}
+
 @media (max-width:770px) {
     .cabecalho {
-        height: 70%;
+        height: 5vh;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-around;
     }
 
     .cabecalho__burger {
-        display: block;
+        display:flex;
     }
 
     .cabecalho__texto {
         display: none;
     }
+
+    .cabecalho__usuario {
+        display: flex;
+        align-items: center;
+        font-size: var(--14px);
+    }
+
 }

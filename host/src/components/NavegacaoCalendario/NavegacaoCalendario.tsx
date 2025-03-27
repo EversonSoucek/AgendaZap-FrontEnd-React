@@ -21,9 +21,7 @@ export const NavegacaoCalendario = () => {
             if (!resposta.ok) {
                 throw new Error
             }
-            setUsuarios(await resposta.json())
-            console.log(usuarios);
-            
+            setUsuarios(await resposta.json())   
         };
         fetchData();
     }, [idEmpresa]);

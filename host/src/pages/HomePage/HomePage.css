@@ -28,6 +28,14 @@
     grid-area: "agendamento";
 }
 
+.aberto {
+    display: block;
+}
+
+.fechado {
+    display: none;
+}
+
 @media (max-width:770px) {
     .home-page {
         grid-template-columns: 1fr;
@@ -41,8 +49,12 @@
         width: 100%;
         margin-left: 20px;
     }
+
     .home-page__side-bar {
-        display: none;
+        height: 100vh;
+        position: fixed;
+        width: 200px;
+        z-index: 1000;
     }
 }
 
