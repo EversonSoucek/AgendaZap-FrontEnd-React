@@ -6,6 +6,7 @@
     background-color: #0F1938;
     height: 100%;
     margin-bottom: 0;
+    margin-right: 0;
 }
 
 .cabecalho__logo {
@@ -40,7 +41,7 @@
     }
 
     .cabecalho__burger {
-        display:flex;
+        display: flex;
     }
 
     .cabecalho__texto {
@@ -52,5 +53,18 @@
         align-items: center;
         font-size: var(--14px);
     }
+}
 
+@media(max-width:475px) {
+    .cabecalho {
+        height: 100%;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .cabecalho__burger {
+        margin-left: 5px ;
+    }
+    .cabecalho__usuario {
+        margin-right: 25px;
+    }
 }

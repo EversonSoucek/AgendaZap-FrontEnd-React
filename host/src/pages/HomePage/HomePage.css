@@ -74,8 +74,15 @@
 }
 
 @media (max-width:475px) {
+    .home-page {
+        grid-template-columns: 1fr;
+        grid-template-rows: 0fr 1fr;
+    }
     .home-page__calendario {
-        width: 70%;
+        width: 100%;
         margin-top: 40px;
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 0;
     }
 }

@@ -4,11 +4,11 @@
 
 .calendario-mes-dias-semana {
     display: grid;
-    background-color: #D4D4D4 ;
+    background-color: #D4D4D4;
     grid-template-columns: repeat(7, 1fr);
     margin-left: 15px;
     margin-top: 30px;
-    height: 56px ;
+    height: 56px;
     width: 100%;
     text-align: center;
     align-items: center;
@@ -36,4 +36,19 @@
     .calendario-mes-dia-semana {
         font-size: var(--14px);
     }
+}
+
+@media (max-width:475px) {
+    .calendario-mes {
+        width: 100%;
+    }
+    .calendario-mes__corpo {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .calendario-mes-dias-semana {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
 }

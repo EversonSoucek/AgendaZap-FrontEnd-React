@@ -35,3 +35,13 @@
         width: 100%;
     }
 }
+
+@media (max-width:475px) {
+    .calendario {
+        background-color: white;
+        padding-bottom: 0px;
+        padding-right: 0px;
+        width: 100%;
+        padding-left: 0;
+    }
+}

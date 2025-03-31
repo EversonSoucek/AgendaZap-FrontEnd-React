@@ -8,12 +8,10 @@ import { useState } from "react";
 
 export const HomePage = () => {
 	const { idEmpresa } = useParams<{ idEmpresa: string }>();
-	const [isOpen, setIsOpen] = useState(false)
+	const [isOpen, setIsOpen] = useState(true)
 
 	const InterageSideBar = () => {
 		setIsOpen(!isOpen)
-		console.log(isOpen);
-		
 	}
 
 	if (idEmpresa) {

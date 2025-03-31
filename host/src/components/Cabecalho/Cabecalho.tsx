@@ -17,7 +17,7 @@ export const Cabecalho: React.FC<Cabecalho> = ({abreSideBar}) => {
 					Sistemas de<br /> Agendamento
 				</p>
 			</div>
-			<div className="cabecalho__usuario"><FaRegUserCircle size={20} /> <p>Olá, Seja bem vindo!</p></div>
+			<div className="cabecalho__usuario"><FaRegUserCircle size={20} /> <p>Olá</p></div>
 		</header >
 	)
 }

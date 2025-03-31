@@ -11,7 +11,7 @@
 }
 
 .calendario-celula__dia {
-    font-family: "Poppins" , sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: var(--14px);
     color: black;
     padding: 10px
@@ -36,6 +36,7 @@
     .calendario-celula {
         width: 98%;
     }
+
     .calendario-celula--fora-mes {
         width: 98%;
     }
@@ -46,6 +47,7 @@
     .calendario-celula {
         width: 97%;
     }
+
     .calendario-celula--fora-mes {
         width: 97%;
     }
@@ -60,5 +62,11 @@
 @media (max-width:550px) {
     .calendario-celula {
         height: 80px;
+    }
+}
+
+@media (max-width:475px) {
+    .calendario-celula {
+        height: 90px;
     }
 }

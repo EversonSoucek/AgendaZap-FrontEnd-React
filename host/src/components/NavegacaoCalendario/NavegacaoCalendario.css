@@ -140,3 +140,28 @@
         font-size: var(--10px);
     }    
 }
+
+@media (max-width:475px) {
+    .navegacao-calendario__funcionario {
+        font-size: var(--12px);
+        width: 15%;
+        margin-left: 5px;
+    }
+    .navegacao-calendario {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .navegacao-calendario__data {
+        font-size: var(--14px);
+    }
+    .navegacao-calendario__botoes {
+        margin-right: 5px;
+    }
+    .navegacao-calendario__botao {
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    .navegacao-calendario__altera {
+        background-color: white;
+    }
+}
