@@ -47,6 +47,7 @@
 .calendario-celula__agendamento:hover {
     background-color: #F4F4F4;
     border-radius: 20px;
+    padding: 2.5px;
 }
 
 .ponto {

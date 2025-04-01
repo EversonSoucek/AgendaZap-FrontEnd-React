@@ -5,7 +5,6 @@ import "./Calendario.css"
 
 export const Calendario = () => {
   const { modoVisualizacao } = useCalendario()
-
   const determinaCalendario = () => {
     if (modoVisualizacao == "dia") {
       return <h1>dia</h1>
