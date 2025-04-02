@@ -4,7 +4,8 @@ import { Cabecalho } from "../../components/Cabecalho/Cabecalho";
 import { SideBar } from "../../components/SideBar/SideBar";
 import "./HomePage.css"
 import { Calendario } from "../../components/Calendario/Calendario/Calendario";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { UseAgendamento } from "../../context/AgendamentoContext";
 
 export const HomePage = () => {
 	const { idEmpresa } = useParams<{ idEmpresa: string }>();

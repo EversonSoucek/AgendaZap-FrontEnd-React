@@ -3,7 +3,6 @@ export type TCliente = {
     Nome? : string,
     Telefone : string,
     Cpf : string,
-    DataUltimoAgendamento : Date,
     Observacao : string,
     Email : string,
     DataCadastro : Date,
