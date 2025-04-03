@@ -2,12 +2,12 @@ import { TCliente } from "./TCliente"
 import { TUsuario } from "./TUsuario"
 
 export type TAgendamento = {
-    IdAgendamento: number,
-    StatusAgendamento: string,
-    DataHoraInicio: Date,
-    DataHoraFim: Date,
-    Observacao?: string,
-    ValorTotal: number,
-    Cliente: TCliente
-    Usuario: TUsuario
+    idAgendamento: number,
+    statusAgendamento: string,
+    dataHoraInicio: Date,
+    dataHoraFim: Date,
+    observacao?: string,
+    valorTotal: number,
+    cliente: TCliente
+    usuario: TUsuario
 }

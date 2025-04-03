@@ -1,23 +1,25 @@
-import { addDays, endOfMonth, startOfMonth, subDays } from "date-fns"
+import { addDays, endOfMonth, parseISO, startOfMonth, subDays } from "date-fns"
 import { CalendarioCelula } from "../CalendarioCelula/CalendarioCelula"
 import "./CalendarioMes.css"
 import { useCalendario } from "../../../context/CalendarioContext"
 import { UseAgendamento } from "../../../context/AgendamentoContext"
+import { useEffect } from "react"
 
 export const CalendarioMes = () => {
 	const diasSemana = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"]
 	const { dataSelecionada } = useCalendario()
 	const { agendamentos } = UseAgendamento();
 
-	
-	
+	if (!agendamentos || agendamentos.length === 0) {
+		return null; // Ou um <p>Carregando...</p> se quiser um feedback visual
+	}
+
 	const inicioMes = startOfMonth(dataSelecionada)
 	const fimMes = endOfMonth(dataSelecionada)
 
 	const diaInicioSemana = inicioMes.getDay();
 	const totalDiasMes = fimMes.getDate();
 	const dias = []
-
 
 	for (let i = diaInicioSemana - 1; i >= 0; i--) {
 		dias.push(subDays(inicioMes, i + 1))
@@ -43,9 +45,12 @@ export const CalendarioMes = () => {
 				))}
 			</div>
 			<div className="calendario-mes__corpo">
-				{dias.map((dia, index) => (
-					<CalendarioCelula key={index} dia={dia} />
-				))}
+				{dias.map((dia:Date, index) => {
+					const agendamentosDoDia = agendamentos.filter((agendamento) => parseISO(agendamento.dataHoraInicio.toString()).toDateString() === dia.toDateString())
+					return (
+						<CalendarioCelula agendamentos={agendamentosDoDia} key={index} dia={dia} />
+					)
+				})}
 			</div>
 		</div>
 	)

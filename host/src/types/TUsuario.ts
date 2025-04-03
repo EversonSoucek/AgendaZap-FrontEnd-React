@@ -1,11 +1,11 @@
 export type TUsuario = {
-    IdUsuario : number,
-    NomeUsuario : string,
-    UltimaModificacao : Date,
-    DataCadastro : Date,
-    NomeInteiro : string,
-    Status: boolean,
-    Senha : string,
-    Email? : string,
-    Cpf? : string
+    idUsuario : number,
+    nomeUsuario : string,
+    ultimaModificacao : Date,
+    dataCadastro : Date,
+    nomeInteiro : string,
+    status: boolean,
+    senha : string,
+    email? : string,
+    cpf? : string
 }
