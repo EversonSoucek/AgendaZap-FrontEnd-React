@@ -12,6 +12,7 @@ import { DashboardLayout } from "./components/DashboardLayout/DashboardLayout";
 import FuncionariosListPage from "./pages/FuncionariosPage/FuncionariosListPage";
 import FuncionariosEditPage from "./pages/FuncionariosPage/FuncionariosEditPage";
 import FuncionariosCreatePage from "./pages/FuncionariosPage/FuncionariosCreatePage";
+import ClienteListPage from "./pages/ClientesPage/ClienteListPage";
 
 // Layout compartilhado
 
@@ -47,7 +48,7 @@ function App() {
 							path="/:idEmpresa/funcionarios/adicionar"
 							element={
 								<CalendarioProvider>
-									<FuncionariosCreatePage/>
+									<FuncionariosCreatePage />
 								</CalendarioProvider>
 							}
 						/>
@@ -55,7 +56,15 @@ function App() {
 							path="/:idEmpresa/funcionarios/:id"
 							element={
 								<CalendarioProvider>
-									<FuncionariosEditPage/>
+									<FuncionariosEditPage />
+								</CalendarioProvider>
+							}
+						/>
+						<Route
+							path="/:idEmpresa/clientes"
+							element={
+								<CalendarioProvider>
+									<ClienteListPage />
 								</CalendarioProvider>
 							}
 						/>
