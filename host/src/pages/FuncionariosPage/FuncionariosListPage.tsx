@@ -1,15 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { GenericTable, Column } from "../../components/GenericTable/GenericTable";
 import { TFuncionario } from "../../types/TFuncionario";
 import UsuarioGetAll from "../../useCases/usuario/usuarioGetAll";
-import UsuarioDelete from "../../useCases/usuario/usuarioDelete";
+import UsuarioDelete from "../../useCases/usuario/UsuarioDelete";
+import { paths } from "../../paths";
 
 export default function FuncionariosListPage() {
   const { idEmpresa } = useParams<{ idEmpresa: string }>();
   const [funcionarios, setFuncionarios] = useState<TFuncionario[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchFuncionarios = async () => {
@@ -35,15 +37,16 @@ export default function FuncionariosListPage() {
   }, [idEmpresa]);
 
   const columns: Column<TFuncionario>[] = [
+    { field: "id", headerName: "ID" },
     { field: "nomeInteiro", headerName: "Nome Completo" },
     { field: "cpf", headerName: "CPF" },
     { field: "email", headerName: "E-mail" },
-    { field: 'nomeUsuario', headerName: "Nomde de usuário" }
+    { field: 'nomeUsuario', headerName: "Nome de de usuário" }
   ];
 
-  const handleEdit = (funcionario: TFuncionario) => {
-    console.log("Editar funcionário:", funcionario);
-  };
+  const handleEdit = useCallback((funcionario: TFuncionario) => {
+    navigate(paths.funcionarios.edit(idEmpresa as string, funcionario.id))
+  }, [navigate]);
 
   const handleDelete = useCallback(
     async (funcionario: TFuncionario) => {
@@ -61,6 +64,10 @@ export default function FuncionariosListPage() {
     [idEmpresa, setFuncionarios]
   );
 
+  const handleCreate = useCallback(() => {
+    navigate(paths.funcionarios.create(idEmpresa as string))
+  }, [navigate])
+
   if (loading) return <p>Carregando funcionários...</p>;
   if (error) return <p>{error}</p>;
 
@@ -72,10 +79,8 @@ export default function FuncionariosListPage() {
       onEdit={handleEdit}
       onDelete={handleDelete}
       searchPlaceholder="Buscar funcionário..."
+      onCreate={handleCreate}
     />
   );
-}
-function async(arg0: (funcionario: TFuncionario) => void): any {
-  throw new Error("Function not implemented.");
 }
 

@@ -10,6 +10,8 @@ import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import { HomePage } from "./pages/HomePage/HomePage";
 import { DashboardLayout } from "./components/DashboardLayout/DashboardLayout";
 import FuncionariosListPage from "./pages/FuncionariosPage/FuncionariosListPage";
+import FuncionariosEditPage from "./pages/FuncionariosPage/FuncionariosEditPage";
+import FuncionariosCreatePage from "./pages/FuncionariosPage/FuncionariosCreatePage";
 
 // Layout compartilhado
 
@@ -41,10 +43,24 @@ function App() {
 								</CalendarioProvider>
 							}
 						/>
-						{/* Você pode adicionar mais páginas aqui que usam o mesmo layout */}
+						<Route
+							path="/:idEmpresa/funcionarios/adicionar"
+							element={
+								<CalendarioProvider>
+									<FuncionariosCreatePage/>
+								</CalendarioProvider>
+							}
+						/>
+						<Route
+							path="/:idEmpresa/funcionarios/:id"
+							element={
+								<CalendarioProvider>
+									<FuncionariosEditPage/>
+								</CalendarioProvider>
+							}
+						/>
 					</Route>
 
-					{/* Página 404 */}
 					<Route path="*" element={<NotFoundPage />} />
 				</Routes>
 			</EmpresaProvider>

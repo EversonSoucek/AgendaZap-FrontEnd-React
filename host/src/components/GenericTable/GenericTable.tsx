@@ -1,9 +1,10 @@
 import React, { useMemo, useState } from "react";
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Paper, IconButton, TextField, Stack, Typography, Box, TablePagination
+  Paper, IconButton, TextField, Stack, Typography, Box, TablePagination,
+  Button
 } from "@mui/material";
-import { Edit, Delete } from "@mui/icons-material";
+import { Edit, Delete, Add } from "@mui/icons-material";
 
 export interface Column<T> {
   field: keyof T;
@@ -15,11 +16,12 @@ export interface Column<T> {
 interface GenericTableProps<T> {
   columns: Column<T>[];
   data: T[];
-  getRowId?: (row: T) => string | number; // ✅ função opcional para obter id
+  getRowId?: (row: T) => string | number;
   onEdit?: (row: T) => void;
   onDelete?: (row: T) => void;
   searchPlaceholder?: string;
-  title: string
+  title: string,
+  onCreate: () => void
 }
 
 export function GenericTable<T extends Record<string, any>>({
@@ -29,7 +31,8 @@ export function GenericTable<T extends Record<string, any>>({
   onEdit,
   onDelete,
   searchPlaceholder = "Pesquisar...",
-  title
+  title,
+  onCreate
 }: GenericTableProps<T>) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
@@ -57,18 +60,32 @@ export function GenericTable<T extends Record<string, any>>({
 
   return (
     <Paper sx={{ p: 2 }}>
-      {/* 🔍 Barra de pesquisa */}
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
         <Typography variant="h6">{title}</Typography>
-        <TextField
-          size="small"
-          placeholder={searchPlaceholder}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <Stack direction='row' spacing={2}>
+          <Button
+            variant="contained"
+            onClick={onCreate}
+            sx={{
+              backgroundColor: "#040404",
+              borderRadius: "50%",
+              minWidth: 0,
+              width: 40,
+              height: 40,
+              "&:hover": { backgroundColor: "#202020" },
+            }}
+          >
+            <Add sx={{ color: "#fff" }} />
+          </Button>
+          <TextField
+            size="small"
+            placeholder={searchPlaceholder}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </Stack>
       </Stack>
 
-      {/* 🧾 Tabela */}
       <TableContainer>
         <Table>
           <TableHead>
