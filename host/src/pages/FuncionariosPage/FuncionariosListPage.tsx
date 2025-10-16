@@ -39,9 +39,9 @@ export default function FuncionariosListPage() {
   const columns: Column<TFuncionario>[] = [
     { field: "id", headerName: "ID" },
     { field: "nomeInteiro", headerName: "Nome Completo" },
+    { field: 'nomeUsuario', headerName: "Nome de de usuário" },
     { field: "cpf", headerName: "CPF" },
     { field: "email", headerName: "E-mail" },
-    { field: 'nomeUsuario', headerName: "Nome de de usuário" }
   ];
 
   const handleEdit = useCallback((funcionario: TFuncionario) => {

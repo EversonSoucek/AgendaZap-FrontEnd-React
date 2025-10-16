@@ -1,29 +1,36 @@
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useCallback, useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
     Box,
     Button,
     Stack,
     TextField,
-    Switch,
     FormControlLabel,
     Typography,
     MenuItem,
     Select,
     FormControl,
     InputLabel,
+    Checkbox,
+    Card,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 import FuncionariosPresenter from "../../../presenters/FuncionariosPresenter";
 import { Cargo } from "../../../enum/Cargo";
 import { FuncionarioSchema, FuncionarioSchemaType } from "../../../schema/FuncionarioSchema";
+import { paths } from "../../../paths";
+import UsuarioCreate from "../../../useCases/usuario/UsuarioCreate";
+import { IMaskInput } from 'react-imask';
+
 
 type TFuncionarioFormProps = {
     funcionario?: FuncionariosPresenter;
 };
 
 export default function FuncionarioForm({ funcionario }: TFuncionarioFormProps) {
+    const navigate = useNavigate();
     const { idEmpresa } = useParams<{ idEmpresa: string }>();
 
     const {
@@ -31,12 +38,12 @@ export default function FuncionarioForm({ funcionario }: TFuncionarioFormProps) 
         handleSubmit,
         formState: { errors },
         reset,
+        control,
     } = useForm<FuncionariosPresenter>({
         resolver: zodResolver(FuncionarioSchema),
-        defaultValues: new FuncionariosPresenter(), // inicia vazio
+        defaultValues: new FuncionariosPresenter(),
     });
 
-    // 🔄 Atualiza o form quando o funcionário for carregado
     useEffect(() => {
         if (funcionario) {
             reset({
@@ -51,29 +58,59 @@ export default function FuncionarioForm({ funcionario }: TFuncionarioFormProps) 
         }
     }, [funcionario, idEmpresa, reset]);
 
-    const onSubmit = (data: FuncionarioSchemaType) => {
-        if (funcionario) {
-            console.log("Atualizando funcionário:", data);
-            // Chamar seu useCase de update aqui
-        } else {
-            console.log("Criando novo funcionário:", data);
-            // Chamar seu useCase de create aqui
+    const onSubmit = async (data: FuncionarioSchemaType) => {
+        try {
+            // Remove pontos e traço do CPF antes de enviar
+            const cleanedData = {
+                ...data,
+                cpf: data.cpf?.replace(/\D/g, ''), // só números
+            };
+
+            if (funcionario) {
+                console.log("Atualizando funcionário:", cleanedData);
+            } else {
+                const usuarioCreate = new UsuarioCreate();
+                await usuarioCreate.execute(idEmpresa as string, cleanedData);
+            }
+
+            toast.success("Funcionário salvo com sucesso!");
+            navigate(paths.funcionarios.list(idEmpresa as string));
+        } catch (err: any) {
+            console.error("Erro ao salvar funcionário:", err);
+            toast.error(err || "Erro ao salvar funcionário. Tente novamente.");
         }
     };
 
+
+    const onCancel = useCallback(() => {
+        navigate(paths.funcionarios.list(idEmpresa as string));
+    }, [navigate, idEmpresa]);
+
     return (
-        <Box maxWidth={600} mx="auto" mt={4}>
-            <Typography variant="h5" mb={3}>
+        <Card
+            sx={{
+                maxWidth: 600,
+                mx: "auto",
+                mt: 6,
+                p: 4, // padding interno
+                borderRadius: 2,
+                boxShadow: 3,
+            }}
+        >
+            <Typography variant="h5" mb={3} textAlign="center">
                 {funcionario ? "Editar Funcionário" : "Adicionar Funcionário"}
             </Typography>
 
             <form onSubmit={handleSubmit(onSubmit)}>
-                <Stack spacing={2}>
+                <Stack spacing={3}>
                     <TextField
                         label="Nome de Usuário"
                         {...register("nomeUsuario")}
                         error={!!errors.nomeUsuario}
                         helperText={errors.nomeUsuario?.message}
+                        InputLabelProps={{ shrink: true }}
+                        inputProps={{ maxLength: 50 }}
+                        fullWidth
                     />
 
                     <TextField
@@ -81,13 +118,32 @@ export default function FuncionarioForm({ funcionario }: TFuncionarioFormProps) 
                         {...register("nomeInteiro")}
                         error={!!errors.nomeInteiro}
                         helperText={errors.nomeInteiro?.message}
+                        InputLabelProps={{ shrink: true }}
+                        inputProps={{ maxLength: 255 }}
+                        fullWidth
                     />
 
-                    <TextField
-                        label="CPF"
-                        {...register("cpf")}
-                        error={!!errors.cpf}
-                        helperText={errors.cpf?.message}
+                    <Controller
+                        name="cpf"
+                        control={control}
+                        render={({ field }) => (
+                            <TextField
+                                label="CPF"
+                                {...field}
+                                InputProps={{
+                                    inputComponent: IMaskInput as any,
+                                    inputProps: {
+                                        mask: "000.000.000-00",
+                                        value: field.value,
+                                        onAccept: (value: string) => field.onChange(value),
+                                    },
+                                }}
+                                error={!!errors.cpf}
+                                helperText={errors.cpf?.message}
+                                InputLabelProps={{ shrink: true }}
+                                fullWidth
+                            />
+                        )}
                     />
 
                     <TextField
@@ -96,6 +152,8 @@ export default function FuncionarioForm({ funcionario }: TFuncionarioFormProps) 
                         {...register("senha")}
                         error={!!errors.senha}
                         helperText={errors.senha?.message}
+                        InputLabelProps={{ shrink: true }}
+                        fullWidth
                     />
 
                     <TextField
@@ -103,9 +161,11 @@ export default function FuncionarioForm({ funcionario }: TFuncionarioFormProps) 
                         {...register("email")}
                         error={!!errors.email}
                         helperText={errors.email?.message}
+                        InputLabelProps={{ shrink: true }}
+                        inputProps={{ maxLength: 255 }}
+                        fullWidth
                     />
 
-                    {/* Select de Cargo usando o enum */}
                     <FormControl fullWidth>
                         <InputLabel id="idCargo-label">Cargo</InputLabel>
                         <Select
@@ -123,16 +183,41 @@ export default function FuncionarioForm({ funcionario }: TFuncionarioFormProps) 
                         </Select>
                     </FormControl>
 
-                    <FormControlLabel
-                        control={<Switch {...register("statusUsuario")} />}
-                        label="Ativo"
+                    <Controller
+                        name="statusUsuario"
+                        control={control}
+                        render={({ field }) => (
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        {...field}
+                                        checked={field.value}
+                                        onChange={(e) => field.onChange(e.target.checked)}
+                                    />
+                                }
+                                label="Ativo"
+                            />
+                        )}
                     />
 
-                    <Button variant="contained" type="submit">
-                        Salvar
-                    </Button>
+                    <Stack direction="row" spacing={2} justifyContent="flex-end" mt={2}>
+                        <Button
+                            variant="contained"
+                            sx={{ backgroundColor: "#0F1938" }}
+                            type="submit"
+                        >
+                            Salvar
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            color="inherit"
+                            onClick={onCancel}
+                        >
+                            Cancelar
+                        </Button>
+                    </Stack>
                 </Stack>
             </form>
-        </Box>
+        </Card>
     );
 }
