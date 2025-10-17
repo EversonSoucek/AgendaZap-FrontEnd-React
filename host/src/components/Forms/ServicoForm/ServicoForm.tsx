@@ -47,18 +47,14 @@ export default function ServicoForm({ servico }: TServicoFormProps) {
         }
     }, [servico, reset]);
 
-    const onSubmit = async (data: ServicosPresenter) => {
+    const onSubmit = async (data: ServicoSchemaType) => {
         try {
-            const cleanedData: ServicosPresenter = {
-                ...data,
-            };
-
             if (servico) {
                 const servicoUpdate = new ServicoUpdate();
-                await servicoUpdate.execute(idEmpresa as string, servico.id as number, cleanedData)
+                await servicoUpdate.execute(idEmpresa as string, servico.id as number, data);
             } else {
                 const servicoCreate = new ServicoCreate();
-                await servicoCreate.execute(idEmpresa as string, cleanedData);
+                await servicoCreate.execute(idEmpresa as string, data);
             }
 
             toast.success("Serviço salvo com sucesso!");
@@ -68,6 +64,8 @@ export default function ServicoForm({ servico }: TServicoFormProps) {
             toast.error(err || "Erro ao salvar serviço. Tente novamente.");
         }
     };
+
+
 
     const onCancel = useCallback(() => {
         navigate(paths.servico.list(idEmpresa as string));
@@ -126,9 +124,21 @@ export default function ServicoForm({ servico }: TServicoFormProps) {
                                 InputProps={{
                                     inputComponent: IMaskInput as any,
                                     inputProps: {
-                                        mask: "00:00:00",
-                                        value: field.value,
-                                        onAccept: (value: number) => field.onChange(value),
+                                        mask: "00:00",
+                                        value: field.value?.slice(0, 5) ?? "",
+                                        onAccept: (value: string) => field.onChange(value),
+                                        onKeyDown: (e: KeyboardEvent) => {
+                                            const input = e.target as HTMLInputElement;
+                                            const cursor = input.selectionStart ?? 0;
+
+                                            // impede apagar o ':' com Backspace ou Delete
+                                            if (
+                                                (e.key === "Backspace" && input.value[cursor - 1] === ":") ||
+                                                (e.key === "Delete" && input.value[cursor] === ":")
+                                            ) {
+                                                e.preventDefault();
+                                            }
+                                        },
                                     },
                                 }}
                                 error={!!errors.tempoDuracao}
@@ -138,6 +148,7 @@ export default function ServicoForm({ servico }: TServicoFormProps) {
                             />
                         )}
                     />
+
 
                     <Controller
                         name="status"
