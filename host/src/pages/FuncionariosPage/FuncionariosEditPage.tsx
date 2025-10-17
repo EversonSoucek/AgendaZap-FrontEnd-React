@@ -15,7 +15,6 @@ export default function FuncionariosEditPage() {
                 if (!idEmpresa || !id) return;
                 const data = await usuarioGetById.execute(idEmpresa, Number(id));
                 setFuncionario(data);
-                console.log(funcionario);
             } catch (error) {
                 console.error("Erro ao buscar funcionário:", error);
             }

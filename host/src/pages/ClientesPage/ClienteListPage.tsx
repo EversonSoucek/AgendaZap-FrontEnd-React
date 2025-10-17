@@ -63,7 +63,9 @@ export default function ClienteListPage() {
         setOpenDialog(true);
     }, []);
 
-    const onEdit = useCallback(() => { }, []);
+    const onEdit = useCallback((cliente: ClientesPresenter) => {
+        navigate(paths.cliente.edit(idEmpresa as string, cliente.id as number))
+    }, [navigate, idEmpresa]);
 
     return (
         <>

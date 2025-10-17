@@ -13,6 +13,9 @@ import FuncionariosListPage from "./pages/FuncionariosPage/FuncionariosListPage"
 import FuncionariosEditPage from "./pages/FuncionariosPage/FuncionariosEditPage";
 import FuncionariosCreatePage from "./pages/FuncionariosPage/FuncionariosCreatePage";
 import ClienteListPage from "./pages/ClientesPage/ClienteListPage";
+import ClienteCreatePage from "./pages/ClientesPage/ClienteCreatePage";
+import ClienteEditPage from "./pages/ClientesPage/ClienteEditPage";
+import ServicosListPage from "./pages/ServicosPage/ServicosListPage";
 
 // Layout compartilhado
 
@@ -66,6 +69,24 @@ function App() {
 								<CalendarioProvider>
 									<ClienteListPage />
 								</CalendarioProvider>
+							}
+						/>
+						<Route
+							path="/:idEmpresa/clientes/adicionar"
+							element={
+								<ClienteCreatePage />
+							}
+						/>
+						<Route
+							path="/:idEmpresa/clientes/:id"
+							element={
+								<ClienteEditPage />
+							}
+						/>
+						<Route
+							path="/:idEmpresa/servico"
+							element={
+								<ServicosListPage />
 							}
 						/>
 					</Route>

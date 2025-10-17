@@ -7,11 +7,11 @@ export default class ClientesPresenter {
 
     cpf: string = '';
 
-    observacao: string = '';
+    observacao?: string = '';
 
-    dataNascimento: string = '';
+    dataNascimento?: string = '';
 
     statusCliente: boolean = true;
 
-    email: string = ''
+    email?: string = ''
 }

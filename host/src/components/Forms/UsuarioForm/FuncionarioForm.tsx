@@ -60,10 +60,9 @@ export default function FuncionarioForm({ funcionario }: TFuncionarioFormProps) 
 
     const onSubmit = async (data: FuncionarioSchemaType) => {
         try {
-            // Remove pontos e traço do CPF antes de enviar
             const cleanedData = {
                 ...data,
-                cpf: data.cpf?.replace(/\D/g, ''), // só números
+                cpf: data.cpf?.replace(/\D/g, ''),
             };
 
             if (funcionario) {
@@ -91,8 +90,7 @@ export default function FuncionarioForm({ funcionario }: TFuncionarioFormProps) 
             sx={{
                 maxWidth: 600,
                 mx: "auto",
-                mt: 6,
-                p: 4, // padding interno
+                p: 4,
                 borderRadius: 2,
                 boxShadow: 3,
             }}
