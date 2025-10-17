@@ -21,7 +21,6 @@ export default function ServicosListPage() {
         { field: "descricao", headerName: "Descrição" },
         { field: "valor", headerName: "Valor" },
         { field: "tempoDuracao", headerName: "Tempo de Duração" },
-        { field: "status", headerName: "Status" },
     ];
 
     useEffect(() => {

@@ -10,8 +10,8 @@ export const paths = {
         edit: (idEmpresa: string, id: number) => `/${idEmpresa}/clientes/${id}`
     },
     servico: {
-        create: (idEmpresa: string) => `/${idEmpresa}/servicos/adicionar`,
-        list: (idEmpresa: string) => `/${idEmpresa}/servicos`,
-        edit: (idEmpresa: string, id: number) => `/${idEmpresa}/servicos/${id}`
+        create: (idEmpresa: string) => `/${idEmpresa}/servico/adicionar`,
+        list: (idEmpresa: string) => `/${idEmpresa}/servico`,
+        edit: (idEmpresa: string, id: number) => `/${idEmpresa}/servico/${id}`
     }
 }

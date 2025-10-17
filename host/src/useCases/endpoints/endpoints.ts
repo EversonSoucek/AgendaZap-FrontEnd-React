@@ -14,6 +14,9 @@ export const endpoints = {
     },
     servico: {
         getAll: (idEmpresa: string) => `${idEmpresa}/servico`,
-        delete: (idEmpresa: string, id: number) => `${idEmpresa}/servico/${id}`
+        delete: (idEmpresa: string, id: number) => `${idEmpresa}/servico/${id}`,
+        create: (idEmpresa: string) => `${idEmpresa}/servico`,
+        update: (idEmpresa: string, id: number) => `${idEmpresa}/servico/${id}`,
+        getById: (idEmpresa: string, id: number) => `${idEmpresa}/servico/${id}`
     }
 }

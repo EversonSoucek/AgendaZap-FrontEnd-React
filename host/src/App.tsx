@@ -16,6 +16,8 @@ import ClienteListPage from "./pages/ClientesPage/ClienteListPage";
 import ClienteCreatePage from "./pages/ClientesPage/ClienteCreatePage";
 import ClienteEditPage from "./pages/ClientesPage/ClienteEditPage";
 import ServicosListPage from "./pages/ServicosPage/ServicosListPage";
+import ServicosCreatePage from "./pages/ServicosPage/ServicosCreatePage";
+import ServicosEditPage from "./pages/ServicosPage/ServicosEditPage";
 
 // Layout compartilhado
 
@@ -87,6 +89,18 @@ function App() {
 							path="/:idEmpresa/servico"
 							element={
 								<ServicosListPage />
+							}
+						/>
+						<Route
+							path="/:idEmpresa/servico/adicionar"
+							element={
+								<ServicosCreatePage />
+							}
+						/>
+						<Route
+							path="/:idEmpresa/servico/:id"
+							element={
+								<ServicosEditPage />
 							}
 						/>
 					</Route>
