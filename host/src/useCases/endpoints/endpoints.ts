@@ -18,5 +18,10 @@ export const endpoints = {
         create: (idEmpresa: string) => `${idEmpresa}/servico`,
         update: (idEmpresa: string, id: number) => `${idEmpresa}/servico/${id}`,
         getById: (idEmpresa: string, id: number) => `${idEmpresa}/servico/${id}`
+    },
+    agendamento: {
+        getAll: (idEmpresa: string) => `${idEmpresa}/agendamento`,
+        create: (idEmpresa: string) => `${idEmpresa}/agendamento`,
+        update: (idEmpresa: string, id: number) => `${idEmpresa}/agendamento/${id}`
     }
 }
