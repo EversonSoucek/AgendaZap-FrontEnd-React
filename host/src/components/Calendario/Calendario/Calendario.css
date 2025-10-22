@@ -21,6 +21,11 @@
      color: black;
 }
 
+.rbc-header {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 .rbc-toolbar button.rbc-active {
   background-color: #161D30 !important;
   color: #fff !important; 
