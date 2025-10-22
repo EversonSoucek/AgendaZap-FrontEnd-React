@@ -10,18 +10,18 @@ import AgendamentoPresenter from "../../../presenters/AgendamentoPresenter";
 import AgendamentoGetAll from "../../../useCases/agendamento/AgendamentoGetAll";
 import { useParams } from "react-router-dom";
 import { StatusAgendamento } from "../../../enum/StatusAgendamento";
+import CustomToolbar from "../../CustomToolBar/CustomToolBar";
 
-// 🔹 Defina o locale ANTES do localizer
+// 🔹 Locale
 moment.locale("pt-br");
 moment.updateLocale("pt-br", {
   weekdaysMin: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
   months: [
-    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
+    "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"
   ]
 });
 
-// 🔹 Cria o localizer já com o locale carregado
 const localizer = momentLocalizer(moment);
 
 const messages = {
@@ -46,13 +46,10 @@ const formats: Partial<Formats> = {
     `${localizer.format(start, "HH:mm", culture)} — ${localizer.format(end, "HH:mm", culture)}`,
   dayHeaderFormat: (date, culture, localizer) =>
     localizer.format(date, "dddd, DD/MM", culture),
-  weekdayFormat: (date, culture, localizer) => {
-    const dias = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-    return dias[date.getDay()]; // getDay() retorna 0=Domingo ... 6=Sábado
-  },
+  weekdayFormat: (date) => ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"][date.getDay()],
   dayFormat: (date, culture, localizer) => localizer.format(date, "DD", culture),
   monthHeaderFormat: (date, culture, localizer) =>
-    localizer.format(date, "MMMM YYYY", culture), // mês na toolbar
+    localizer.format(date, "MMMM YYYY", culture),
   dayRangeHeaderFormat: ({ start, end }, culture, localizer) =>
     `${localizer.format(start, "DD MMM", culture)} – ${localizer.format(end, "DD MMM", culture)}`,
 };
@@ -111,17 +108,10 @@ export const Calendario = () => {
   const eventStyleGetter = (event: AgendamentoPresenter) => {
     let backgroundColor = "";
     switch (event.statusAgendamento) {
-      case StatusAgendamento.PENDENTE:
-        backgroundColor = "#FFC916";
-        break;
-      case StatusAgendamento.FINALIZADO:
-        backgroundColor = "#7DC588";
-        break;
-      case StatusAgendamento.CANCELADO:
-        backgroundColor = "#FF4500";
-        break;
-      default:
-        backgroundColor = "#808080";
+      case StatusAgendamento.PENDENTE: backgroundColor = "#FFC916"; break;
+      case StatusAgendamento.FINALIZADO: backgroundColor = "#7DC588"; break;
+      case StatusAgendamento.CANCELADO: backgroundColor = "#FF4500"; break;
+      default: backgroundColor = "#808080";
     }
 
     return {
@@ -144,7 +134,6 @@ export const Calendario = () => {
         endAccessor="end"
         defaultView="month"
         views={["month", "week", "day"]}
-        style={{ height: "100%" }}
         onSelectEvent={handleSelectEvent}
         onSelectSlot={handleSelectSlot}
         selectable
@@ -152,6 +141,10 @@ export const Calendario = () => {
         messages={messages}
         formats={formats}
         eventPropGetter={eventStyleGetter}
+        components={{
+          toolbar: CustomToolbar // ✅ Toolbar customizado aqui
+        }}
+        style={{ height: "100%" }}
       />
 
       <AgendamentoModal
