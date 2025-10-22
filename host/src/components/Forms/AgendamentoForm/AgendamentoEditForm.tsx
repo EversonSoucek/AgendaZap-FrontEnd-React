@@ -9,6 +9,9 @@ import {
     Autocomplete,
     CircularProgress,
     MenuItem,
+    FormControl,
+    InputLabel,
+    Select,
 } from "@mui/material";
 import { toast } from "sonner";
 import AgendamentoPresenter from "../../../presenters/AgendamentoPresenter";
@@ -52,8 +55,8 @@ export default function AgendamentoEditForm({
     const [usuarios, setUsuarios] = useState<any[]>([]);
     const [servicos, setServicos] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    console.log(agendamento);
 
-    // 🔹 Carrega dados de seleção
     useEffect(() => {
         async function fetchData() {
             try {
@@ -75,9 +78,9 @@ export default function AgendamentoEditForm({
         fetchData();
     }, [idEmpresa]);
 
-    // 🔹 Preenche os valores iniciais (convertendo Date corretamente)
     useEffect(() => {
         if (!agendamento) return;
+
         reset({
             dataHoraInicio: agendamento.dataHoraInicio
                 ? new Date(agendamento.dataHoraInicio)
@@ -88,11 +91,16 @@ export default function AgendamentoEditForm({
             observacao: agendamento.observacao ?? "",
             idCliente: agendamento.idCliente,
             idUsuario: agendamento.idUsuario,
-            idServico: agendamento.idServico ?? [],
+            // 🔥 Mapeia os IDs dos serviços vinculados ao agendamento
+            idServico: agendamento.agendamentoServico
+                ? agendamento.agendamentoServico.map((s) => s.idServico)
+                : [],
             valorTotal: agendamento.valorTotal ?? 0,
-            statusAgendamento: agendamento.statusAgendamento ?? StatusAgendamento.PENDENTE,
+            statusAgendamento:
+                agendamento.statusAgendamento ?? StatusAgendamento.PENDENTE,
         });
     }, [agendamento, reset]);
+
 
     const onSubmit = async (data: AgendamentoEditSchemaType) => {
         try {
@@ -124,7 +132,6 @@ export default function AgendamentoEditForm({
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack spacing={3}>
-                    {/* Cliente */}
                     <Controller
                         name="idCliente"
                         control={control}
@@ -157,7 +164,6 @@ export default function AgendamentoEditForm({
                         )}
                     />
 
-                    {/* Usuário */}
                     <Controller
                         name="idUsuario"
                         control={control}
@@ -190,7 +196,6 @@ export default function AgendamentoEditForm({
                         )}
                     />
 
-                    {/* Serviços */}
                     <Controller
                         name="idServico"
                         control={control}
@@ -280,7 +285,6 @@ export default function AgendamentoEditForm({
                         helperText={errors.valorTotal?.message}
                     />
 
-                    {/* Observação */}
                     <TextField
                         label="Observação"
                         {...register("observacao")}
@@ -289,19 +293,31 @@ export default function AgendamentoEditForm({
                         fullWidth
                     />
 
-                    {/* Status */}
-                    <TextField
-                        select
-                        label="Status"
-                        {...register("statusAgendamento", { valueAsNumber: true })}
-                        fullWidth
-                        error={!!errors.statusAgendamento}
-                        helperText={errors.statusAgendamento?.message}
-                    >
-                        <MenuItem value={StatusAgendamento.PENDENTE}>Pendente</MenuItem>
-                        <MenuItem value={StatusAgendamento.FINALIZADO}>Finalizado</MenuItem>
-                        <MenuItem value={StatusAgendamento.CANCELADO}>Cancelado</MenuItem>
-                    </TextField>
+                    <Controller
+                        name="statusAgendamento"
+                        control={control}
+                        render={({ field }) => (
+                            <FormControl fullWidth error={!!errors.statusAgendamento}>
+                                <InputLabel>Status</InputLabel>
+                                <Select
+                                    {...field}
+                                    label="Status"
+                                    value={field.value ?? StatusAgendamento.PENDENTE}
+                                    onChange={(e) => field.onChange(Number(e.target.value))}
+                                >
+                                    <MenuItem value={StatusAgendamento.PENDENTE}>Pendente</MenuItem>
+                                    <MenuItem value={StatusAgendamento.FINALIZADO}>Finalizado</MenuItem>
+                                    <MenuItem value={StatusAgendamento.CANCELADO}>Cancelado</MenuItem>
+                                </Select>
+                                {errors.statusAgendamento && (
+                                    <Typography color="error" variant="caption">
+                                        {errors.statusAgendamento.message}
+                                    </Typography>
+                                )}
+                            </FormControl>
+                        )}
+                    />
+
 
                     <Stack direction="row" spacing={2} justifyContent="flex-end" mt={2}>
                         <Button variant="outlined" color="inherit" onClick={onCancel}>

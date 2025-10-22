@@ -218,6 +218,7 @@ export default function AgendamentoForm({
                             control={control}
                             render={({ field }) => (
                                 <DateTimePicker
+                                    ampm={false}
                                     label="Início"
                                     value={field.value ? new Date(field.value) : null}
                                     onChange={(date) => field.onChange(date)}
