@@ -10,7 +10,7 @@ import AgendamentoPresenter from "../../../presenters/AgendamentoPresenter";
 import AgendamentoGetAll from "../../../useCases/agendamento/AgendamentoGetAll";
 import { useParams } from "react-router-dom";
 import { StatusAgendamento } from "../../../enum/StatusAgendamento";
-import CustomToolbar from "../../CustomToolBar/CustomToolBar";
+import CustomToolbar from "../../CustomToolBar/CustomToolbar";
 
 // 🔹 Locale
 moment.locale("pt-br");
@@ -58,12 +58,17 @@ export const Calendario = () => {
   const [events, setEvents] = useState<AgendamentoPresenter[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<AgendamentoPresenter | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [selectedFuncionario, setSelectedFuncionario] = useState<string>("");
+
   const { idEmpresa } = useParams<{ idEmpresa: string }>();
 
   const fetchAgendamentos = async () => {
     try {
       const agendamentoService = new AgendamentoGetAll();
-      const data = await agendamentoService.execute(idEmpresa as string);
+      const data = await agendamentoService.execute(
+        idEmpresa as string,
+        selectedFuncionario || undefined
+      );
 
       const mapped = data.map((item: any) => ({
         ...item,
@@ -83,7 +88,7 @@ export const Calendario = () => {
 
   useEffect(() => {
     fetchAgendamentos();
-  }, []);
+  }, [idEmpresa, selectedFuncionario]);
 
   const handleSelectEvent = (event: any) => {
     setSelectedEvent(event);
@@ -142,7 +147,13 @@ export const Calendario = () => {
         formats={formats}
         eventPropGetter={eventStyleGetter}
         components={{
-          toolbar: CustomToolbar // ✅ Toolbar customizado aqui
+          toolbar: (toolbarProps) => (
+            <CustomToolbar
+              {...toolbarProps}
+              selectedFuncionario={selectedFuncionario}
+              onFuncionarioChange={setSelectedFuncionario}
+            />
+          )
         }}
         style={{ height: "100%" }}
       />
