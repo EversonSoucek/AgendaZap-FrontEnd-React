@@ -7,12 +7,14 @@ export default class AgendamentoCreate {
         try {
             console.log(request);
             const response = await api(endpoints.agendamento.create(idEmpresa), 'POST', request)
-            if(!response.ok) {
-                throw response.statusText
+            if (!response.ok) {
+                const text = await response.text(); // opcional: pega a resposta do body
+                throw new Error(text || response.statusText);
             }
+
             const data = response.json()
             return data
-        }catch(err) {
+        } catch (err) {
             throw err
         }
     }

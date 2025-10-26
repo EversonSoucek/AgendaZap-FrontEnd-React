@@ -227,7 +227,10 @@ export default function AgendamentoForm({
                                             {...params}
                                             fullWidth
                                             error={!!errors.dataHoraInicio}
-                                            helperText={errors.dataHoraInicio?.message}
+                                            helperText={
+                                                errors.dataHoraInicio?.message ||
+                                                (errors.dataHoraInicio as any)?._errors?.[0] || ""
+                                            }
                                         />
                                     )}
                                 />
