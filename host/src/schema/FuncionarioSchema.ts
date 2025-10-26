@@ -17,6 +17,13 @@ export const FuncionarioSchema = z.object({
         .email("E-mail inválido")
         .optional(),
     statusUsuario: z.boolean(),
+
+    // Campos do profissional de saúde
+    profissionalSaude: z.object({
+        tipoConselho: z.string().optional(),
+        registroConselho: z.string().optional(),
+        especialidade: z.string().optional(),
+    }).optional(),
 });
 
 export type FuncionarioSchemaType = z.infer<typeof FuncionarioSchema>;

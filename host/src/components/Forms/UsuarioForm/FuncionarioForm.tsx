@@ -1,9 +1,7 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    Box,
-    Button,
     Stack,
     TextField,
     FormControlLabel,
@@ -14,6 +12,7 @@ import {
     InputLabel,
     Checkbox,
     Card,
+    Button,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -23,15 +22,13 @@ import { FuncionarioSchema, FuncionarioSchemaType } from "../../../schema/Funcio
 import { paths } from "../../../paths";
 import UsuarioCreate from "../../../useCases/usuario/UsuarioCreate";
 import { IMaskInput } from 'react-imask';
+import EmpresaGetById from "../../../useCases/empresas/EmpresaGetById";
+import { tipoEmpresa } from "../../../enum/TipoEmpresa";
 
-
-type TFuncionarioFormProps = {
-    funcionario?: FuncionariosPresenter;
-};
-
-export default function FuncionarioForm({ funcionario }: TFuncionarioFormProps) {
+export default function FuncionarioForm({ funcionario }: { funcionario?: FuncionariosPresenter }) {
     const navigate = useNavigate();
     const { idEmpresa } = useParams<{ idEmpresa: string }>();
+    const [tipo, setTipo] = useState<tipoEmpresa | null>(null);
 
     const {
         register,
@@ -43,6 +40,21 @@ export default function FuncionarioForm({ funcionario }: TFuncionarioFormProps) 
         resolver: zodResolver(FuncionarioSchema),
         defaultValues: new FuncionariosPresenter(),
     });
+
+    useEffect(() => {
+        if (!idEmpresa) return;
+        const fetchEmpresa = async () => {
+            try {
+                const empresaService = new EmpresaGetById();
+                const empresa = await empresaService.execute(idEmpresa);
+                setTipo(empresa.tipoEmpresa);
+            } catch (err) {
+                console.error("Erro ao buscar tipo da empresa:", err);
+                toast.error("Erro ao carregar dados da empresa.");
+            }
+        };
+        fetchEmpresa();
+    }, [idEmpresa]);
 
     useEffect(() => {
         if (funcionario) {
@@ -80,27 +92,56 @@ export default function FuncionarioForm({ funcionario }: TFuncionarioFormProps) 
         }
     };
 
-
     const onCancel = useCallback(() => {
         navigate(paths.funcionarios.list(idEmpresa as string));
     }, [navigate, idEmpresa]);
 
     return (
-        <Card
-            sx={{
-                maxWidth: 600,
-                mx: "auto",
-                p: 4,
-                borderRadius: 2,
-                boxShadow: 3,
-            }}
-        >
+        <Card sx={{ maxWidth: 600, mx: "auto", p: 4, borderRadius: 2, boxShadow: 3 }}>
             <Typography variant="h5" mb={3} textAlign="center">
                 {funcionario ? "Editar Funcionário" : "Adicionar Funcionário"}
             </Typography>
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack spacing={3}>
+                    {/* Cargo e Ativo na mesma linha */}
+                    <Stack direction="row" spacing={2}>
+                        <FormControl fullWidth>
+                            <InputLabel id="idCargo-label">Cargo</InputLabel>
+                            <Select
+                                labelId="idCargo-label"
+                                defaultValue={funcionario?.idCargo ?? Cargo.USER}
+                                {...register("idCargo", { valueAsNumber: true })}
+                            >
+                                {Object.entries(Cargo)
+                                    .filter(([_, v]) => typeof v === "number")
+                                    .map(([key, value]) => (
+                                        <MenuItem key={value} value={value}>
+                                            {key}
+                                        </MenuItem>
+                                    ))}
+                            </Select>
+                        </FormControl>
+
+                        <Controller
+                            name="statusUsuario"
+                            control={control}
+                            render={({ field }) => (
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            {...field}
+                                            checked={field.value}
+                                            onChange={(e) => field.onChange(e.target.checked)}
+                                        />
+                                    }
+                                    label="Ativo"
+                                    sx={{ alignSelf: "center" }}
+                                />
+                            )}
+                        />
+                    </Stack>
+
                     <TextField
                         label="Nome de Usuário"
                         {...register("nomeUsuario")}
@@ -164,53 +205,40 @@ export default function FuncionarioForm({ funcionario }: TFuncionarioFormProps) 
                         fullWidth
                     />
 
-                    <FormControl fullWidth>
-                        <InputLabel id="idCargo-label">Cargo</InputLabel>
-                        <Select
-                            labelId="idCargo-label"
-                            defaultValue={funcionario?.idCargo ?? Cargo.USER}
-                            {...register("idCargo", { valueAsNumber: true })}
-                        >
-                            {Object.entries(Cargo)
-                                .filter(([_, v]) => typeof v === "number")
-                                .map(([key, value]) => (
-                                    <MenuItem key={value} value={value}>
-                                        {key}
-                                    </MenuItem>
-                                ))}
-                        </Select>
-                    </FormControl>
+                    {tipo === tipoEmpresa.CLINICA && (
+                        <Stack spacing={2}>
+                            <Stack direction="row" spacing={2}>
+                                <TextField
+                                    label="Tipo de Conselho"
+                                    {...register("profissionalSaude.tipoConselho")}
+                                    error={!!errors.profissionalSaude?.tipoConselho}
+                                    helperText={errors.profissionalSaude?.tipoConselho?.message}
+                                    fullWidth
+                                />
+                                <TextField
+                                    label="Registro no Conselho"
+                                    {...register("profissionalSaude.registroConselho")}
+                                    error={!!errors.profissionalSaude?.registroConselho}
+                                    helperText={errors.profissionalSaude?.registroConselho?.message}
+                                    fullWidth
+                                />
+                            </Stack>
 
-                    <Controller
-                        name="statusUsuario"
-                        control={control}
-                        render={({ field }) => (
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        {...field}
-                                        checked={field.value}
-                                        onChange={(e) => field.onChange(e.target.checked)}
-                                    />
-                                }
-                                label="Ativo"
+                            <TextField
+                                label="Especialidade"
+                                {...register("profissionalSaude.especialidade")}
+                                error={!!errors.profissionalSaude?.especialidade}
+                                helperText={errors.profissionalSaude?.especialidade?.message}
+                                fullWidth
                             />
-                        )}
-                    />
+                        </Stack>
+                    )}
 
                     <Stack direction="row" spacing={2} justifyContent="flex-end" mt={2}>
-                        <Button
-                            variant="contained"
-                            sx={{ backgroundColor: "#0F1938" }}
-                            type="submit"
-                        >
+                        <Button variant="contained" sx={{ backgroundColor: "#0F1938" }} type="submit">
                             Salvar
                         </Button>
-                        <Button
-                            variant="outlined"
-                            color="inherit"
-                            onClick={onCancel}
-                        >
+                        <Button variant="outlined" color="inherit" onClick={onCancel}>
                             Cancelar
                         </Button>
                     </Stack>

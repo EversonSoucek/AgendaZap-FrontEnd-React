@@ -1,1 +1,5 @@
-{}
+{
+  "dependencies": {
+    "@originjs/vite-plugin-federation": "^1.4.1"
+  }
+}

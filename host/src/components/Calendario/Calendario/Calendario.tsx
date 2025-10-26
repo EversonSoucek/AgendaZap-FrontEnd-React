@@ -11,6 +11,8 @@ import AgendamentoGetAll from "../../../useCases/agendamento/AgendamentoGetAll";
 import { useParams } from "react-router-dom";
 import { StatusAgendamento } from "../../../enum/StatusAgendamento";
 import CustomToolbar from "../../CustomToolBar/CustomToolbar";
+import { tipoEmpresa } from "../../../enum/TipoEmpresa";
+import EmpresaGetById from "../../../useCases/empresas/EmpresaGetById";
 
 // 🔹 Locale
 moment.locale("pt-br");
@@ -59,14 +61,28 @@ export const Calendario = () => {
   const [selectedEvent, setSelectedEvent] = useState<AgendamentoPresenter | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedFuncionario, setSelectedFuncionario] = useState<string>("");
+  const [empresaTipo, setEmpresaTipo] = useState<tipoEmpresa>(tipoEmpresa.GENERICO);
 
   const { idEmpresa } = useParams<{ idEmpresa: string }>();
 
+  const fetchEmpresaTipo = async () => {
+    if (!idEmpresa) return;
+    try {
+      const empresaService = new EmpresaGetById();
+      const data = await empresaService.execute(idEmpresa);
+      setEmpresaTipo(data.tipoEmpresa ?? tipoEmpresa.GENERICO);
+    } catch (err) {
+      console.error("Erro ao carregar empresa:", err);
+      setEmpresaTipo(tipoEmpresa.GENERICO);
+    }
+  };
+
   const fetchAgendamentos = async () => {
+    if (!idEmpresa) return;
     try {
       const agendamentoService = new AgendamentoGetAll();
       const data = await agendamentoService.execute(
-        idEmpresa as string,
+        idEmpresa,
         selectedFuncionario || undefined
       );
 
@@ -87,6 +103,7 @@ export const Calendario = () => {
   };
 
   useEffect(() => {
+    fetchEmpresaTipo();
     fetchAgendamentos();
   }, [idEmpresa, selectedFuncionario]);
 
@@ -163,6 +180,7 @@ export const Calendario = () => {
         onClose={() => setModalOpen(false)}
         event={selectedEvent}
         idEmpresa={idEmpresa as string}
+        tipo={empresaTipo} // ✅ passa apenas o tipoEmpresa
         onSuccess={fetchAgendamentos}
       />
     </div>
