@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { StatusAgendamento } from "../enum/StatusAgendamento";
 
 export const AgendamentoSchema = z.object({
   dataHoraInicio: z.date(),

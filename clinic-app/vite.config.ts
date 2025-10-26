@@ -10,6 +10,7 @@ export default defineConfig({
       filename: "remoteEntry.js",
       exposes: {
         "./FuncionarioForm": "./src/components/Forms/UsuarioForm/FuncionarioForm.tsx",
+        "./Cabecalho": "./src/components/Cabecalho/Cabecalho.tsx"
       },
       shared: {
         react: {

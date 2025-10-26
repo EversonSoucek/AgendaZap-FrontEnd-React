@@ -197,7 +197,6 @@ export default function FuncionarioForm({ idEmpresa, funcionario, cancel }: TFun
                         )}
                     />
 
-                    {/* Campos do Profissional de Saúde */}
                     <Card variant="outlined" sx={{ p: 2 }}>
                         <Typography variant="subtitle1" mb={2}>
                             Dados do Profissional de Saúde
