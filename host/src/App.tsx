@@ -18,6 +18,7 @@ import ClienteEditPage from "./pages/ClientesPage/ClienteEditPage";
 import ServicosListPage from "./pages/ServicosPage/ServicosListPage";
 import ServicosCreatePage from "./pages/ServicosPage/ServicosCreatePage";
 import ServicosEditPage from "./pages/ServicosPage/ServicosEditPage";
+import ConfiguracaoPage from "./pages/configuracaoPage/ConfiguracaoPage";
 
 // Layout compartilhado
 
@@ -101,6 +102,12 @@ function App() {
 							path="/:idEmpresa/servico/:id"
 							element={
 								<ServicosEditPage />
+							}
+						/>
+						<Route
+							path="/:idEmpresa/configuraçoes"
+							element={
+								<ConfiguracaoPage />
 							}
 						/>
 					</Route>

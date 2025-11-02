@@ -25,6 +25,7 @@ export const endpoints = {
         update: (idEmpresa: string, id: number) => `${idEmpresa}/agendamento/${id}`
     },
     empresa: {
-        getById: (idEmpresa:string) => `empresa/${idEmpresa}`
+        getById: (idEmpresa:string) => `empresa/${idEmpresa}`,
+        update: (idEmpresa: string) => `empresa/${idEmpresa}`
     }
 }
