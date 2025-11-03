@@ -13,5 +13,7 @@ export default class ClientesPresenter {
 
     statusCliente: boolean = true;
 
-    email?: string = ''
+    email?: string = '';
+
+    dataCadastro: string = ''
 }

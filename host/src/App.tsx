@@ -19,6 +19,7 @@ import ServicosListPage from "./pages/ServicosPage/ServicosListPage";
 import ServicosCreatePage from "./pages/ServicosPage/ServicosCreatePage";
 import ServicosEditPage from "./pages/ServicosPage/ServicosEditPage";
 import ConfiguracaoPage from "./pages/configuracaoPage/ConfiguracaoPage";
+import RelatoriosPage from "./pages/RelatoriosPage/RelatoriosPage";
 
 // Layout compartilhado
 
@@ -108,6 +109,12 @@ function App() {
 							path="/:idEmpresa/configuraçoes"
 							element={
 								<ConfiguracaoPage />
+							}
+						/>
+						<Route
+							path="/:idEmpresa/relatorios"
+							element={
+								<RelatoriosPage />
 							}
 						/>
 					</Route>
