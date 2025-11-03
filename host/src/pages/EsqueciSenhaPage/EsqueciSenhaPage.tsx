@@ -8,7 +8,6 @@ import { UseVerificaEmpresa } from "../../hooks/UseVerificaEmpresa"
 import { PiArrowBendDownLeftThin } from "react-icons/pi";
 
 
-//todo: Pedir protótipo de mensagem de confirmação de esqueci a senha
 const EsqueciSenhaPage = () => {
   const { idEmpresa } = useParams<{ idEmpresa: string }>();
 

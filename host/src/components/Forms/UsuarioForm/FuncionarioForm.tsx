@@ -104,7 +104,6 @@ export default function FuncionarioForm({ funcionario }: { funcionario?: Funcion
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack spacing={3}>
-                    {/* Cargo e Ativo na mesma linha */}
                     <Stack direction="row" spacing={2}>
                         <FormControl fullWidth>
                             <InputLabel id="idCargo-label">Cargo</InputLabel>
@@ -184,16 +183,18 @@ export default function FuncionarioForm({ funcionario }: { funcionario?: Funcion
                             />
                         )}
                     />
+                    {!funcionario && (
+                        <TextField
+                            label="Senha"
+                            type="password"
+                            {...register("senha")}
+                            error={!!errors.senha}
+                            helperText={errors.senha?.message}
+                            InputLabelProps={{ shrink: true }}
+                            fullWidth
+                        />
+                    )}
 
-                    <TextField
-                        label="Senha"
-                        type="password"
-                        {...register("senha")}
-                        error={!!errors.senha}
-                        helperText={errors.senha?.message}
-                        InputLabelProps={{ shrink: true }}
-                        fullWidth
-                    />
 
                     <TextField
                         label="Email"

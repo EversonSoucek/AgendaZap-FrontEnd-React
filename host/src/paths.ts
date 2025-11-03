@@ -15,6 +15,7 @@ export const paths = {
         edit: (idEmpresa: string, id: number) => `/${idEmpresa}/servico/${id}`
     },
     home: {
-        home: (idEmpresa: string) => `/${idEmpresa}/home`
+        home: (idEmpresa: string) => `/${idEmpresa}/home`,
+        login: (idEmpresa: string) => `/${idEmpresa}/`
     }
 }
