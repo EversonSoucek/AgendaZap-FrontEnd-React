@@ -220,6 +220,11 @@ export default function ChatPage() {
   }, [connectSocket, fetchQrImage]);
 
   useEffect(() => {
+    const mainElement = document.querySelector<HTMLElement>('.dashboard-layout__main');
+    if (mainElement) {
+      mainElement.classList.add('dashboard-layout__main--chat');
+    }
+
     return () => {
       if (wsRef.current) {
         wsRef.current.close();
@@ -229,8 +234,19 @@ export default function ChatPage() {
         URL.revokeObjectURL(qrObjectUrlRef.current);
         qrObjectUrlRef.current = null;
       }
+      if (mainElement) {
+        mainElement.classList.remove('dashboard-layout__main--chat');
+      }
     };
   }, []);
+
+  useEffect(() => {
+    if (isConnected && qrObjectUrlRef.current) {
+      URL.revokeObjectURL(qrObjectUrlRef.current);
+      qrObjectUrlRef.current = null;
+      setQrImageUrl(null);
+    }
+  }, [isConnected]);
 
   const statusLabel = useMemo(() => {
     if (isConnecting) {
@@ -265,16 +281,18 @@ export default function ChatPage() {
           {connectionError && <p className="chat-error">{connectionError}</p>}
         </div>
 
-        <section className="chat-sidebar__qr">
-          <h2>QR Code</h2>
-          {qrImageUrl ? (
-            <img src={qrImageUrl} alt="QR code para autenticação" />
-          ) : (
-            <p className="chat-sidebar__qr-empty">
-              Clique em "Conectar" para solicitar o QR code e estabelecer a sessão.
-            </p>
-          )}
-        </section>
+        {!isConnected && (
+          <section className="chat-sidebar__qr">
+            <h2>QR Code</h2>
+            {qrImageUrl ? (
+              <img src={qrImageUrl} alt="QR code para autenticação" />
+            ) : (
+              <p className="chat-sidebar__qr-empty">
+                Clique em "Conectar" para solicitar o QR code e estabelecer a sessão.
+              </p>
+            )}
+          </section>
+        )}
       </div>
 
       <main className="chat-content">
