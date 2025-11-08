@@ -13,7 +13,7 @@ export const SideBar = () => {
         <div className="container side-bar">
             <ul className="side-bar__menu">
                 <li><Link className="side-bar__item" to={`${idEmpresa}/home`}><FaRegCalendarCheck size={26} /><p className="side-bar__texto">Agenda</p></Link></li>
-                <li><Link className="side-bar__item" to={"/chat"}><IoIosChatboxes size={26} /><p className="side-bar__texto">Chat</p></Link></li>
+                <li><Link className="side-bar__item" to={`${idEmpresa}/chat`}><IoIosChatboxes size={26} /><p className="side-bar__texto">Chat</p></Link></li>
                 <li><Link className="side-bar__item" to={`${idEmpresa}/funcionarios`}><FaClipboardUser size={26} /><p className="side-bar__texto">Funcionários</p></Link></li>
                 <li><Link className="side-bar__item" to={`${idEmpresa}/clientes`}><CiUser size={26} /><p className="side-bar__texto">Clientes</p></Link></li>
                 <li><Link className="side-bar__item" to={`${idEmpresa}/servico`}><FaWrench size={26} /><p className="side-bar__texto">Serviços</p></Link></li>

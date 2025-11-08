@@ -20,6 +20,7 @@ import ServicosCreatePage from "./pages/ServicosPage/ServicosCreatePage";
 import ServicosEditPage from "./pages/ServicosPage/ServicosEditPage";
 import ConfiguracaoPage from "./pages/configuracaoPage/ConfiguracaoPage";
 import RelatoriosPage from "./pages/RelatoriosPage/RelatoriosPage";
+import ChatPage from "./pages/chatPage/ChatPage";
 
 // Layout compartilhado
 
@@ -115,6 +116,12 @@ function App() {
 							path="/:idEmpresa/relatorios"
 							element={
 								<RelatoriosPage />
+							}
+						/>
+						<Route
+							path="/:idEmpresa/chat"
+							element={
+								<ChatPage />
 							}
 						/>
 					</Route>
