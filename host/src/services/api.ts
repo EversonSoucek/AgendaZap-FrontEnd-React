@@ -4,14 +4,17 @@ type TApi<T = unknown> = (
     data?: T
 ) => Promise<Response>
 
-const api: TApi = (endpoint:string, metodo:string, data) => {
+const api: TApi = (endpoint: string, metodo: string, data) => {
+    const token = localStorage.getItem("accessToken");
+
     return fetch(`http://localhost:5235/${endpoint}`, {
         method: metodo,
-        headers: { 'Content-Type': 'application/json',"Access-Control-Allow-Credentials": "true" },
-        credentials:"include",
-        body: JSON.stringify(data)
-    }
-    )
-}
+        headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
+        body: data ? JSON.stringify(data) : undefined
+    });
+};
 
-export default api
+export default api;

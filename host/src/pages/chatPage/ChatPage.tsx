@@ -1,266 +1,266 @@
-"use client"
+"use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import "./ChatPage.css"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import "./ChatPage.css";
 
-type MessageType = "user" | "bot" | "system"
+type MessageType = "user" | "bot" | "system";
 
 type SocketPayload =
   | {
-      type: "user_message"
-      sender: string
-      from: string
-      body: string
-      timestamp: string
-    }
+    type: "user_message";
+    sender: string;
+    from: string;
+    body: string;
+    timestamp: string;
+  }
   | {
-      type: "bot_message"
-      sender: string
-      to: string
-      body: string
-      timestamp: string
-    }
+    type: "bot_message";
+    sender: string;
+    to: string;
+    body: string;
+    timestamp: string;
+  }
   | {
-      type: "qr_generated"
-      qr: string
-    }
+    type: "qr_generated";
+    qr: string;
+  }
   | {
-      type: "qr_cleared"
-    }
+    type: "qr_cleared";
+  };
 
 type ChatMessage = {
-  id: string
-  author: string
-  body: string
-  timestamp?: string
-  type: MessageType
-}
+  id: string;
+  author: string;
+  body: string;
+  timestamp?: string;
+  type: MessageType;
+};
 
-const WS_ENDPOINT = "ws://localhost:8080"
-const QR_ENDPOINT = "http://localhost:3000/qr"
+const WS_ENDPOINT = "ws://localhost:8080";
+const QR_ENDPOINT = "http://localhost:3001/qr";
+const START_ENDPOINT = "http://localhost:3001/start";
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState<ChatMessage[]>([])
-  const [isConnecting, setIsConnecting] = useState(false)
-  const [isConnected, setIsConnected] = useState(false)
-  const [connectionError, setConnectionError] = useState<string | null>(null)
-  const [qrImageUrl, setQrImageUrl] = useState<string | null>(null)
-  const wsRef = useRef<WebSocket | null>(null)
-  const qrObjectUrlRef = useRef<string | null>(null)
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
+  const [connectionError, setConnectionError] = useState<string | null>(null);
+  const [qrImageUrl, setQrImageUrl] = useState<string | null>(null);
 
+  const wsRef = useRef<WebSocket | null>(null);
+  const qrObjectUrlRef = useRef<string | null>(null);
+
+  // Adiciona mensagem
   const appendMessage = useCallback((message: ChatMessage) => {
-    setMessages((prev) => [...prev, message])
-  }, [])
+    setMessages((prev) => [...prev, message]);
+  }, []);
 
   const formatTimestamp = useCallback((isoDate?: string) => {
-    if (!isoDate) {
-      return ""
-    }
+    if (!isoDate) return "";
     try {
       return new Date(isoDate).toLocaleTimeString("pt-BR", {
         hour: "2-digit",
         minute: "2-digit",
-      })
+      });
     } catch {
-      return ""
+      return "";
     }
-  }, [])
+  }, []);
 
+  // Buscar QR do backend
   const fetchQrImage = useCallback(async () => {
     try {
-      const response = await fetch(QR_ENDPOINT, {
-        cache: "no-store",
-      })
+      const response = await fetch(QR_ENDPOINT, { cache: "no-store" });
 
       if (!response.ok) {
-        if (response.status === 404) {
-          appendMessage({
-            id: crypto.randomUUID(),
-            author: "Sistema",
-            body: "QR code ainda não está disponível. Aguarde alguns instantes e tente novamente.",
-            type: "system",
-          })
-        } else {
-          appendMessage({
-            id: crypto.randomUUID(),
-            author: "Sistema",
-            body: `Não foi possível obter o QR code (erro ${response.status}).`,
-            type: "system",
-          })
-        }
-        return
+        appendMessage({
+          id: crypto.randomUUID(),
+          author: "Sistema",
+          body: "QR ainda não disponível. Aguarde...",
+          type: "system",
+        });
+        return;
       }
 
-      const blob = await response.blob()
+      const blob = await response.blob();
+
       if (qrObjectUrlRef.current) {
-        URL.revokeObjectURL(qrObjectUrlRef.current)
+        URL.revokeObjectURL(qrObjectUrlRef.current);
       }
-      const objectUrl = URL.createObjectURL(blob)
-      qrObjectUrlRef.current = objectUrl
-      setQrImageUrl(objectUrl)
-      appendMessage({
-        id: crypto.randomUUID(),
-        author: "Sistema",
-        body: "QR code recebido. Escaneie para autenticar a sessão.",
-        type: "system",
-      })
-    } catch (error) {
-      console.error("Erro ao buscar QR code:", error)
-      appendMessage({
-        id: crypto.randomUUID(),
-        author: "Sistema",
-        body: "Erro de conexão ao solicitar o QR code.",
-        type: "system",
-      })
-    }
-  }, [appendMessage])
 
+      const objectUrl = URL.createObjectURL(blob);
+      qrObjectUrlRef.current = objectUrl;
+      setQrImageUrl(objectUrl);
+
+      appendMessage({
+        id: crypto.randomUUID(),
+        author: "Sistema",
+        body: "QR code recebido. Escaneie para autenticar.",
+        type: "system",
+      });
+    } catch (error) {
+      console.error("Erro ao buscar QR:", error);
+      appendMessage({
+        id: crypto.randomUUID(),
+        author: "Sistema",
+        body: "Erro ao obter QR code.",
+        type: "system",
+      });
+    }
+  }, [appendMessage]);
+
+  // Conectando WebSocket
   const connectSocket = useCallback(() => {
-    if (wsRef.current && wsRef.current.readyState !== WebSocket.CLOSED) {
-      return
-    }
+    if (wsRef.current && wsRef.current.readyState !== WebSocket.CLOSED) return;
 
-    setIsConnecting(true)
-    setConnectionError(null)
+    setIsConnecting(true);
+    setConnectionError(null);
 
-    try {
-      const socket = new WebSocket(WS_ENDPOINT)
-      wsRef.current = socket
+    const socket = new WebSocket(WS_ENDPOINT);
+    wsRef.current = socket;
 
-      socket.onopen = () => {
-        setIsConnecting(false)
-        setIsConnected(true)
-        appendMessage({
-          id: crypto.randomUUID(),
-          author: "Sistema",
-          body: "Conectado ao servidor de mensagens.",
-          type: "system",
-        })
-      }
+    socket.onopen = () => {
+      setIsConnecting(false);
+      setIsConnected(true);
+      appendMessage({
+        id: crypto.randomUUID(),
+        author: "Sistema",
+        body: "Conectado ao servidor.",
+        type: "system",
+      });
+    };
 
-      socket.onclose = () => {
-        setIsConnected(false)
-        setIsConnecting(false)
-        appendMessage({
-          id: crypto.randomUUID(),
-          author: "Sistema",
-          body: "Conexão encerrada.",
-          type: "system",
-        })
-      }
+    socket.onclose = () => {
+      setIsConnected(false);
+      setIsConnecting(false);
+      appendMessage({
+        id: crypto.randomUUID(),
+        author: "Sistema",
+        body: "Conexão encerrada.",
+        type: "system",
+      });
+    };
 
-      socket.onerror = () => {
-        setConnectionError("Não foi possível conectar ao servidor de mensagens.")
-        setIsConnecting(false)
-        setIsConnected(false)
-      }
+    socket.onerror = () => {
+      setConnectionError("Falha ao conectar ao servidor.");
+      setIsConnecting(false);
+      setIsConnected(false);
+    };
 
-      socket.onmessage = (event: MessageEvent<string>) => {
-        try {
-          const data: SocketPayload = JSON.parse(event.data)
+    socket.onmessage = (event: MessageEvent<string>) => {
+      try {
+        const data: SocketPayload = JSON.parse(event.data);
 
-          if (data.type === "user_message") {
-            appendMessage({
-              id: crypto.randomUUID(),
-              author: data.sender,
-              body: data.body,
-              timestamp: data.timestamp,
-              type: "user",
-            })
-            return
-          }
-
-          if (data.type === "bot_message") {
-            appendMessage({
-              id: crypto.randomUUID(),
-              author: "Bot",
-              body: data.body,
-              timestamp: data.timestamp,
-              type: "bot",
-            })
-            return
-          }
-
-          if (data.type === "qr_generated") {
-            appendMessage({
-              id: crypto.randomUUID(),
-              author: "Sistema",
-              body: "Novo QR code disponível. Faça a leitura para continuar.",
-              type: "system",
-            })
-            fetchQrImage()
-            return
-          }
-
-          if (data.type === "qr_cleared") {
-            appendMessage({
-              id: crypto.randomUUID(),
-              author: "Sistema",
-              body: "QR code não é mais necessário. Sessão autenticada.",
-              type: "system",
-            })
-            if (qrObjectUrlRef.current) {
-              URL.revokeObjectURL(qrObjectUrlRef.current)
-              qrObjectUrlRef.current = null
-            }
-            setQrImageUrl(null)
-          }
-        } catch (err) {
-          console.error("Erro ao interpretar mensagem do WebSocket:", err)
+        if (data.type === "user_message") {
+          appendMessage({
+            id: crypto.randomUUID(),
+            author: data.sender,
+            body: data.body,
+            timestamp: data.timestamp,
+            type: "user",
+          });
         }
-      }
-    } catch (error) {
-      console.error("Erro ao iniciar WebSocket:", error)
-      setConnectionError("Não foi possível iniciar a conexão com o servidor.")
-      setIsConnecting(false)
-    }
-  }, [appendMessage, fetchQrImage])
 
+        if (data.type === "bot_message") {
+          appendMessage({
+            id: crypto.randomUUID(),
+            author: "Bot",
+            body: data.body,
+            timestamp: data.timestamp,
+            type: "bot",
+          });
+        }
+
+        if (data.type === "qr_generated") {
+          appendMessage({
+            id: crypto.randomUUID(),
+            author: "Sistema",
+            body: "QR code disponível. Escaneie.",
+            type: "system",
+          });
+
+          fetchQrImage();
+        }
+
+        if (data.type === "qr_cleared") {
+          appendMessage({
+            id: crypto.randomUUID(),
+            author: "Sistema",
+            body: "Sessão autenticada! QR removido.",
+            type: "system",
+          });
+
+          if (qrObjectUrlRef.current) {
+            URL.revokeObjectURL(qrObjectUrlRef.current);
+            qrObjectUrlRef.current = null;
+          }
+          setQrImageUrl(null);
+        }
+      } catch (err) {
+        console.error("Erro ao interpretar WS:", err);
+      }
+    };
+  }, [appendMessage, fetchQrImage]);
+
+  // ⛔ BUG ORIGINAL: WS conectava depois do QR ser gerado
+  // ✅ AGORA: primeiro conecta o socket, depois inicia WhatsApp
   const handleConnect = useCallback(async () => {
-    await fetchQrImage()
-    connectSocket()
-  }, [connectSocket, fetchQrImage])
+    try {
+      // 1) Conectar WebSocket antes de iniciar WhatsApp
+      connectSocket();
 
-  useEffect(() => {
-    const mainElement = document.querySelector<HTMLElement>(".dashboard-layout__main")
-    if (mainElement) {
-      mainElement.classList.add("dashboard-layout__main--chat")
+      appendMessage({
+        id: crypto.randomUUID(),
+        author: "Sistema",
+        body: "Conectando ao WhatsApp...",
+        type: "system",
+      });
+
+      // 2) Agora iniciamos o WhatsApp
+      const response = await fetch(START_ENDPOINT);
+
+      if (!response.ok) {
+        appendMessage({
+          id: crypto.randomUUID(),
+          author: "Sistema",
+          body: "Erro ao iniciar WhatsApp.",
+          type: "system",
+        });
+        return;
+      }
+
+      appendMessage({
+        id: crypto.randomUUID(),
+        author: "Sistema",
+        body: "WhatsApp iniciado. Aguardando QR...",
+        type: "system",
+      });
+
+      // 3) Tenta buscar QR imediatamente (caso já exista)
+      fetchQrImage();
+    } catch (err) {
+      appendMessage({
+        id: crypto.randomUUID(),
+        author: "Sistema",
+        body: "Falha ao iniciar servidor WhatsApp.",
+        type: "system",
+      });
     }
+  }, [appendMessage, connectSocket, fetchQrImage]);
 
+  // Cleanup
+  useEffect(() => {
     return () => {
-      if (wsRef.current) {
-        wsRef.current.close()
-        wsRef.current = null
-      }
-      if (qrObjectUrlRef.current) {
-        URL.revokeObjectURL(qrObjectUrlRef.current)
-        qrObjectUrlRef.current = null
-      }
-      if (mainElement) {
-        mainElement.classList.remove("dashboard-layout__main--chat")
-      }
-    }
-  }, [])
-
-  useEffect(() => {
-    if (isConnected) {
-      if (qrObjectUrlRef.current) {
-        URL.revokeObjectURL(qrObjectUrlRef.current)
-        qrObjectUrlRef.current = null
-      }
-      setQrImageUrl(null)
-    }
-  }, [isConnected])
+      if (wsRef.current) wsRef.current.close();
+      if (qrObjectUrlRef.current) URL.revokeObjectURL(qrObjectUrlRef.current);
+    };
+  }, []);
 
   const statusLabel = useMemo(() => {
-    if (isConnecting) {
-      return "Conectando..."
-    }
-    if (isConnected) {
-      return "Conectado"
-    }
-    return "Desconectado"
-  }, [isConnected, isConnecting])
+    if (isConnecting) return "Conectando...";
+    if (isConnected) return "Conectado";
+    return "Desconectado";
+  }, [isConnected, isConnecting]);
 
   return (
     <div className="chat-page">
@@ -271,23 +271,31 @@ export default function ChatPage() {
         </header>
 
         <div className="chat-sidebar__actions">
-          <button type="button" className="chat-button" onClick={handleConnect} disabled={isConnecting || isConnected}>
+          <button
+            type="button"
+            className="chat-button"
+            onClick={handleConnect}
+            disabled={isConnecting || isConnected}
+          >
             {isConnected ? "Conectado" : isConnecting ? "Conectando..." : "Conectar"}
           </button>
+
           <span className={`chat-status chat-status--${isConnected ? "online" : "offline"}`}>
             Status: {statusLabel}
           </span>
+
           {connectionError && <p className="chat-error">{connectionError}</p>}
         </div>
 
         {!isConnected && (
           <section className="chat-sidebar__qr">
             <h2>QR Code</h2>
+
             {qrImageUrl ? (
-              <img src={qrImageUrl || "/placeholder.svg"} alt="QR code para autenticação" />
+              <img src={qrImageUrl} alt="QR code para autenticação" />
             ) : (
               <p className="chat-sidebar__qr-empty">
-                Clique em "Conectar" para solicitar o QR code e estabelecer a sessão.
+                Clique em "Conectar" para gerar o QR e iniciar a sessão.
               </p>
             )}
           </section>
@@ -298,10 +306,11 @@ export default function ChatPage() {
         <header className="chat-content__header">
           <h2>Mensagens</h2>
         </header>
+
         <div className="chat-messages">
           {messages.length === 0 ? (
             <div className="chat-messages__empty">
-              <p>Nenhuma mensagem ainda. Assim que novas mensagens chegarem, elas aparecerão aqui.</p>
+              <p>Nenhuma mensagem ainda.</p>
             </div>
           ) : (
             messages.map((message) => (
@@ -309,9 +318,11 @@ export default function ChatPage() {
                 <div className="chat-message__meta">
                   <span className="chat-message__author">{message.author}</span>
                   {message.timestamp && (
-                    <time className="chat-message__time">{formatTimestamp(message.timestamp)}</time>
+                    <time className="chat-message__time">
+                      {formatTimestamp(message.timestamp)}
+                    </time>
                   )}
-                </div>
+                </div> 
                 <p className="chat-message__body">{message.body}</p>
               </div>
             ))
@@ -319,5 +330,5 @@ export default function ChatPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }

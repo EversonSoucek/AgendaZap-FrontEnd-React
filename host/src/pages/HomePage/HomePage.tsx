@@ -6,9 +6,9 @@ import { Calendario } from "../../components/Calendario/Calendario/Calendario";
 export const HomePage = () => {
 	const { idEmpresa } = useParams<{ idEmpresa: string }>();
 
-	if (idEmpresa) {
-		UseVerificaEmpresa(idEmpresa);
-	}
+	// if (idEmpresa) {
+	// 	UseVerificaEmpresa(idEmpresa);
+	// }
 
 	return (
 		<div className="home-page-content">
